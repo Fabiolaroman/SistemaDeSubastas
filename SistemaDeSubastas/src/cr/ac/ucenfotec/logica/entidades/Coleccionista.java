@@ -89,7 +89,11 @@ public class Coleccionista extends Usuario{
 
     //crear subasta
     public void crearSubasta(GestorSubastas gestor, int dia, int mes, int annio, int hora, int minutos, double precio, ArrayList<Item> items){
-        gestor.crearSubasta(dia, mes, annio, hora, minutos, this, precio, items);
+        if (this.coleccion.containsAll(items)) {
+            gestor.crearSubasta(dia, mes, annio, hora, minutos, this, precio, items);
+        } else {
+            System.out.println("Solo puedes vender items de tu colección");
+        }
     }
 
     //ofertar
