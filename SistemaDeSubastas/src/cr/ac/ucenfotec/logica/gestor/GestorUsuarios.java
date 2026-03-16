@@ -12,10 +12,9 @@ public class GestorUsuarios {
     }
 
     // registrar usuario
-    public void registrarUsuario(String nombre, String id, int edad, String correo) {
+    public void registrarUsuario(String nombre,String apellidos, String id, int dia, int mes, int annio, String correo) {
 
-        Usuario nuevoUsuario = new Usuario(nombre, id, edad, correo);
-        usuarios.add(nuevoUsuario);
+
 
         System.out.println("Usuario registrado correctamente");
     }
