@@ -8,6 +8,7 @@ import java.util.Collection;
 
 public class GestorSubastas {
     private ArrayList<Subasta> subastas;
+    private ArrayList<OrdenAdjudicacion> ordenes;
 
     //constructor
     public GestorSubastas() {subastas = new ArrayList<>();}
@@ -58,6 +59,7 @@ public class GestorSubastas {
             if(!subasta.isEstaActiva()){
                 if(!subasta.getOfertas().isEmpty()){
                     OrdenAdjudicacion orden = new OrdenAdjudicacion(subasta.ofertaGanadora().getUsuario(), subasta, subasta.ofertaGanadora());
+                    ordenes.add(orden);
                     subasta.ofertaGanadora().getUsuario().agregarItems(subasta.getItems());
                 }
             }
