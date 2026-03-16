@@ -129,6 +129,10 @@ public class Subasta {
         ofertas.add(oferta);
     }
 
+    public String verOfertas() {
+        return ofertas.toString();
+    }
+
     //oferta mas alta
     public Oferta ofertaGanadora(){
         Oferta ofertaganadora = null;
@@ -143,5 +147,10 @@ public class Subasta {
 
         return ofertaganadora;
 
+    }
+
+    //toString
+    public String toString(){
+        return "Subasta: " + id + " Precio Minimo: $" + precioMinimo + "\n" + items;
     }
 }

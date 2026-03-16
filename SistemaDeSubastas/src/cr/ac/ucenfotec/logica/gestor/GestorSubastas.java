@@ -33,6 +33,13 @@ public class GestorSubastas {
 
     }
 
+    //getter
+
+
+    public ArrayList<Subasta> getSubastas() {
+        return subastas;
+    }
+
     //ofertar
     public void agregarOferta(String idSubasta, Coleccionista usuario, double monto){
         subastas.forEach(subasta -> {
@@ -51,6 +58,7 @@ public class GestorSubastas {
             if(!subasta.isEstaActiva()){
                 if(!subasta.getOfertas().isEmpty()){
                     OrdenAdjudicacion orden = new OrdenAdjudicacion(subasta.ofertaGanadora().getUsuario(), subasta, subasta.ofertaGanadora());
+                    subasta.ofertaGanadora().getUsuario().agregarItems(subasta.getItems());
                 }
             }
         });

@@ -51,6 +51,10 @@ public class Coleccionista extends Usuario{
         coleccion.add(item);
     }
 
+    public void agregarItems(ArrayList<Item> items){
+        coleccion.addAll(items);
+    }
+
     public void eliminar(String idItem){
         coleccion.forEach(item -> {
             if (idItem.equals(item.getId())) {
