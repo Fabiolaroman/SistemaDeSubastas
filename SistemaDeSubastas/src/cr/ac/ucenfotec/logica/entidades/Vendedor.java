@@ -1,5 +1,9 @@
 package cr.ac.ucenfotec.logica.entidades;
 
+import cr.ac.ucenfotec.logica.gestor.GestorSubastas;
+
+import java.util.ArrayList;
+
 public class Vendedor extends Usuario{
     private double puntuacion;
     private String direccion;
@@ -48,5 +52,7 @@ public class Vendedor extends Usuario{
     }
 
     //crear subasta
-
+    public void crearSubasta(GestorSubastas gestor, int dia, int mes, int annio, int hora, int minutos, double precio, ArrayList<Item> items){
+        gestor.crearSubasta(dia, mes, annio, hora, minutos, this, precio, items);
+    }
 }

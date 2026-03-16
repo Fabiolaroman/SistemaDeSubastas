@@ -85,7 +85,7 @@ public abstract class Usuario {
 
     // toString
     public String toString() {
-        return "Nombre: " + nombre +
+        return "\n | Nombre: " + nombre +
                 "\n | ID: " + identificacion +
                 "\n | Fecha de Nacimiento: " + fechaNacimiento.getDayOfMonth() + "/" + fechaNacimiento.getMonth() + "/" + getFechaNacimiento().getYear() +
                 "\n | Edad: " + edad +
