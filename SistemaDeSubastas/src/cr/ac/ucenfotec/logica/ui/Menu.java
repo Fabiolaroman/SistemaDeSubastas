@@ -27,13 +27,14 @@ public class Menu {
         gestorUsuarios.registrarModerador("Roberto", "González", "117260520", 13, 11, 1998, "rgonzalezca@ucenfotec.ac.cr", "Password1");
         gestorUsuarios.registrarVendedor("John", "Doe", "111111111", 01, 01, 2000, "anonimo@ucenfotec.ac.cr", "Password2", "San José");
         Item itemSubasta1 = new Item("Biblia de Guthemberg", "Biblia original de Guthemberg", "Original", 24, 02, 1455);
-        if (gestorUsuarios.getUsuarios().get(1) instanceof Vendedor) {
-            ((Vendedor) gestorUsuarios.getUsuarios().get(1)).crearSubasta(gestorSubastas, 16, 3, 2026, 23, 18, 250000, new ArrayList<Item>(List.of(itemSubasta1)));
-        }
+
+        gestorUsuarios.vendedorXId("V-1").crearSubasta(gestorSubastas, 31, 3, 2026, 23, 18, 250000, new ArrayList<Item>(List.of(itemSubasta1)));
         ;
         System.out.println("\nBienvenido al Subastador de Coleccionistas" +
                 "\n Digite 1 para registrarse");
         while (ejecutando) {
+            System.out.println("\nBienvenido al Subastador de Coleccionistas");
+
             switch (in.readLine()) {
                 case "1":
                     System.out.println("\nNombre: ");
@@ -67,25 +68,26 @@ public class Menu {
                     switch(in.readLine()){
                         case "1":
                             System.out.println("Digite el ID de la subasta en la que desea ofertar:");
-                            if (gestorUsuarios.getUsuarios().get(2) instanceof Coleccionista) { //Solucion temporal para menu de ejemplo
-                                String idSubasta = in.readLine();
-                                if (gestorSubastas.getSubastas().stream().anyMatch(subasta -> subasta.getId().equals(idSubasta))) {
+                                String idSubastaOferta = in.readLine();
+                                if (gestorSubastas.getSubastas().stream().anyMatch(subasta -> subasta.getId().equals(idSubastaOferta))) {
                                     System.out.println("¿Cuanto desea ofertar?");
                                     int monto = Integer.parseInt(in.readLine());
-                                    ((Coleccionista) gestorUsuarios.getUsuarios().get(2)).ofertar(gestorSubastas, idSubasta, monto);
+                                    System.out.println("PRUEBA ANTES");
+                                    gestorSubastas.agregarOferta(idSubastaOferta, gestorUsuarios.coleccionistaXId("C-1"), monto);
+                                    System.out.println("PRUEBA DESPUES");
+                                    System.out.println("S-1 activa?" + gestorSubastas.subastaXId("S-1").isEstaActiva());
+                                    System.out.println(gestorSubastas.subastaXId(idSubastaOferta).getOfertas());
                                 } else {
                                     System.out.println();
                                 }
-
-                            }
                             break;
 
                         case "2":
                             System.out.println("Digite el ID de la subasta que desea examinar:");
-                            String idSubasta = in.readLine();
-                            if (gestorSubastas.getSubastas().stream().anyMatch(subasta -> subasta.getId().equals(idSubasta))) {
+                            String idSubastaConsulta = in.readLine();
+                            if (gestorSubastas.getSubastas().stream().anyMatch(subasta -> subasta.getId().equals(idSubastaConsulta))) {
                                 for (Subasta subasta : gestorSubastas.getSubastas()) {
-                                    if (idSubasta.equals(subasta.getId())) {
+                                    if (idSubastaConsulta.equals(subasta.getId())) {
                                         System.out.println(subasta.verOfertas());
                                     }
                                 }
@@ -97,14 +99,14 @@ public class Menu {
                     break;
 
                 case "3":
-                    System.out.println(gestorUsuarios.getUsuarios().get(2));
+//                    System.out.println(gestorUsuarios.getUsuarios().get(2));
                     break;
 
                 case "4":
                     System.out.println("¿Que interés desea agregar?");
-                    if (gestorUsuarios.getUsuarios().get(2) instanceof Coleccionista) {
-                        ((Coleccionista) gestorUsuarios.getUsuarios().get(2)).agregarInteres(in.readLine());
-                    }
+//                    if (gestorUsuarios.getUsuarios().get(2) instanceof Coleccionista) {
+//                        ((Coleccionista) gestorUsuarios.getUsuarios().get(2)).agregarInteres(in.readLine());
+//                    }
 
 
                 default:

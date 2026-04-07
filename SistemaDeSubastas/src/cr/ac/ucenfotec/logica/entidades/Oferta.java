@@ -30,6 +30,8 @@ public class Oferta {
         return usuario.getNombre();
     }
 
+    public String getApellidosUsuario() {return usuario.getApellidos();}
+
     public double getPuntuacionUsuario() {
         return usuario.getPuntuacion();
     }
@@ -46,7 +48,7 @@ public class Oferta {
     @Override
     public String toString() {
         return "Oferta: " +
-                "\nDe: " + getNombreUsuario() +
+                "\nDe: " + getNombreUsuario() + " " + getApellidosUsuario() +
                 "\nPor: " + monto;
     }
 

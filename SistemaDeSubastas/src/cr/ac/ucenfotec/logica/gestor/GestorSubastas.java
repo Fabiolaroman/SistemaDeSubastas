@@ -43,13 +43,12 @@ public class GestorSubastas {
 
     //ofertar
     public void agregarOferta(String idSubasta, Coleccionista usuario, double monto){
-        subastas.forEach(subasta -> {
-            subasta.actualizarEstado();
-            if(idSubasta.equals(subasta.getId()) && subasta.isEstaActiva()){
-                Oferta oferta = new Oferta(usuario, monto);
-                subasta.addOferta(oferta);
-            }
-        });
+        Subasta subasta = subastaXId(idSubasta);
+        subasta. actualizarEstado();
+        if(subasta.isEstaActiva()){
+            Oferta oferta = new Oferta(usuario, monto);
+            subasta.addOferta(oferta);
+        }
     }
 
     //adjudicar
@@ -64,5 +63,23 @@ public class GestorSubastas {
                 }
             }
         });
+    }
+
+    //subastaXId
+    public Subasta subastaXId(String id){
+        Subasta subastaEncontrado = null;
+        boolean encontrado = false;
+
+        for (Subasta cliente : subastas){
+            if(cliente.getId().equals(id)){
+                subastaEncontrado = cliente;
+                encontrado = true;
+            }
+        }
+
+        if(!encontrado){
+            System.out.println("Subasta no exite");
+        }
+        return subastaEncontrado;
     }
 }

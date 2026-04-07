@@ -6,9 +6,10 @@ import java.time.Period;
 public abstract class Usuario {
 
     // Atributos
+    protected String id;
     protected String nombre;
     protected String apellidos;
-    protected String identificacion;
+    protected String cedula;
     protected LocalDate fechaNacimiento;
     protected int edad;
     protected String correo;
@@ -19,10 +20,10 @@ public abstract class Usuario {
 
     }
 
-    public Usuario(String nombre, String apellidos, String identificacion, int dia, int mes, int annio, String correo, String password) {
+    public Usuario(String nombre, String apellidos, String cedula, int dia, int mes, int annio, String correo, String password) {
         this.nombre = nombre;
         this.apellidos = apellidos;
-        this.identificacion = identificacion;
+        this.cedula = cedula;
         this.fechaNacimiento = LocalDate.of(annio, mes, dia);
         this.edad = Period.between(fechaNacimiento, LocalDate.now()).getYears();
         this.correo = correo;
@@ -30,6 +31,17 @@ public abstract class Usuario {
     }
 
     // Getter y Setters
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+
     public String getNombre() {
         return nombre;
     }
@@ -39,13 +51,20 @@ public abstract class Usuario {
         this.nombre = nombre;
     }
 
-    public String getIdentificacion() {
-        return identificacion;
+    public String getApellidos() {
+        return apellidos;
     }
 
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
 
-    public void setIdentificacion(String identificacion) {
-        this.identificacion = identificacion;
+    public String getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
     }
 
     public LocalDate getFechaNacimiento() {
@@ -86,7 +105,7 @@ public abstract class Usuario {
     // toString
     public String toString() {
         return "\n | Nombre: " + nombre +
-                "\n | ID: " + identificacion +
+                "\n | Cedula: " + cedula +
                 "\n | Fecha de Nacimiento: " + fechaNacimiento.getDayOfMonth() + "/" + fechaNacimiento.getMonth() + "/" + getFechaNacimiento().getYear() +
                 "\n | Edad: " + edad +
                 "\n | Correo: " + correo;
@@ -94,6 +113,6 @@ public abstract class Usuario {
 
     //equals
     public boolean equals(Usuario usuario) {
-        return this.identificacion.equals(usuario.identificacion);
+        return this.cedula.equals(usuario.cedula);
     }
 }

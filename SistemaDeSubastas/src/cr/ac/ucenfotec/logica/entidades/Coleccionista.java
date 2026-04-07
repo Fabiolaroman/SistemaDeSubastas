@@ -5,14 +5,17 @@ import cr.ac.ucenfotec.logica.gestor.GestorSubastas;
 import java.util.ArrayList;
 
 public class Coleccionista extends Usuario{
+    private static int contador = 0;
     private double puntuacion;
     private String direccion;
     private ArrayList<Item> coleccion;
     private ArrayList<String> intereses;
 
     //constructor
-    public Coleccionista(String nombre, String apellidos, String identificacion, int dia, int mes, int annio, String correo, String password, String direccion){
-        super(nombre, apellidos, identificacion, dia, mes, annio, correo, password);
+    public Coleccionista(String nombre, String apellidos, String cedula, int dia, int mes, int annio, String correo, String password, String direccion){
+        contador++;
+        super(nombre, apellidos, cedula, dia, mes, annio, correo, password);
+        id = "C-" + contador;
         this.direccion = direccion;
         this.puntuacion = 5.0;
         coleccion = new ArrayList<>();
@@ -101,7 +104,7 @@ public class Coleccionista extends Usuario{
     }
 
     //ofertar
-    public void ofertar(GestorSubastas gestor, String idSubasta, double monto){
-        gestor.agregarOferta(idSubasta, this, monto);
-    }
+//    public void ofertar(GestorSubastas gestor, String idSubasta, double monto){
+//        gestor.agregarOferta(idSubasta, this, monto);
+//    }
 }

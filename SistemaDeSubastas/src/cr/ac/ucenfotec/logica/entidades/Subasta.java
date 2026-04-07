@@ -117,7 +117,7 @@ public class Subasta {
 
     //actualizarEstado
     public void actualizarEstado(){
-        if (fechaHoraVencimiento.isAfter(LocalDateTime.now()) || fechaHoraVencimiento.isEqual(LocalDateTime.now())){
+        if (LocalDateTime.now().isAfter(fechaHoraVencimiento) || fechaHoraVencimiento.isEqual(LocalDateTime.now())){
             this.estaActiva = false;
         } else {
             this.tiempoRestante = Duration.between(fechaHoraVencimiento, LocalDateTime.now());

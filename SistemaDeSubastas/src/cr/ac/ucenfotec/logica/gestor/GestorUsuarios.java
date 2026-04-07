@@ -9,26 +9,24 @@ import java.util.ArrayList;
 
 public class GestorUsuarios {
 
-    private ArrayList<Usuario> usuarios;
+    private Moderador moderador;
+    private ArrayList<Vendedor> vendedores;
+    private ArrayList<Coleccionista> coleccionistas;
 
     public GestorUsuarios() {
-        usuarios = new ArrayList<>();
+        vendedores = new ArrayList<>();
+        coleccionistas = new ArrayList<>();
     }
 
     // registrar usuario
     public void registrarModerador(String nombre, String apellidos, String id, int dia, int mes, int annio, String correo, String password) {
-            Moderador usuario = new Moderador(nombre, apellidos, id, dia, mes, annio, correo, password);
-            if(usuario.getEdad() >= 18) {
-                usuarios.add(usuario);
-            } else {
-                System.out.println("Debe ser mayor de edad para registrarse en nuestro sistema");
-            }
+            moderador = new Moderador(nombre, apellidos, id, dia, mes, annio, correo, password);
     }
 
     public void registrarVendedor(String nombre, String apellidos, String id, int dia, int mes, int annio, String correo, String password, String direccion) {
         Vendedor usuario = new Vendedor(nombre, apellidos, id, dia, mes, annio, correo, password, direccion);
         if(usuario.getEdad() >= 18) {
-                usuarios.add(usuario);
+                vendedores.add(usuario);
             } else {
                 System.out.println("Debe ser mayor de edad para registrarse en nuestro sistema");
             }
@@ -37,30 +35,93 @@ public class GestorUsuarios {
     public void registrarColeccionista(String nombre, String apellidos, String id, int dia, int mes, int annio, String correo, String password, String direccion) {
         Coleccionista usuario = new Coleccionista(nombre, apellidos, id, dia, mes, annio, correo, password, direccion);
         if(usuario.getEdad() >= 18) {
-                usuarios.add(usuario);
+                coleccionistas.add(usuario);
             } else {
                 System.out.println("Debe ser mayor de edad para registrarse en nuestro sistema");
             }
     }
 
     // listar usuarios
-    public void listarUsuarios() {
+    public void listarVendedores() {
 
-        if (usuarios.isEmpty()) {
-            System.out.println("No hay usuarios registrados");
+        if (vendedores.isEmpty()) {
+            System.out.println("No hay vendedores registrados");
         } else {
 
-            for (Usuario u : usuarios) {
+            for (Usuario u : vendedores) {
                 System.out.println(u);
             }
 
         }
     }
 
+    public void listarColeccionistas() {
+
+        if (coleccionistas.isEmpty()) {
+            System.out.println("No hay vendedores registrados");
+        } else {
+
+            for (Usuario u : coleccionistas) {
+                System.out.println(u);
+            }
+
+        }
+    }
     //getter
 
-    public ArrayList<Usuario> getUsuarios() {
-        return usuarios;
+
+    public Moderador getModerador() {
+        return moderador;
+    }
+
+    public ArrayList<Vendedor> getVendedores() {
+        return vendedores;
+    }
+
+    public ArrayList<Coleccionista> getColeccionistas() {
+        return coleccionistas;
+    }
+
+    //setter
+
+
+    public void setModerador(Moderador moderador) {
+        this.moderador = moderador;
+    }
+
+    //usuarioXid
+    public Vendedor vendedorXId(String id){
+        Vendedor vendedorEncontrado = null;
+        boolean encontrado = false;
+
+        for (Vendedor vendedor : vendedores){
+            if(vendedor.getId().equals(id)){
+                vendedorEncontrado = vendedor;
+                encontrado = true;
+            }
+        }
+
+        if(!encontrado){
+            System.out.println("Usuario no exite");
+        }
+        return vendedorEncontrado;
+    }
+
+    public Coleccionista coleccionistaXId(String id){
+        Coleccionista coleccionistaEncontrado = null;
+        boolean encontrado = false;
+
+        for (Coleccionista coleccionista : coleccionistas){
+            if(coleccionista.getId().equals(id)){
+                coleccionistaEncontrado = coleccionista;
+                encontrado = true;
+            }
+        }
+
+        if(!encontrado){
+            System.out.println("Usuario no exite");
+        }
+        return coleccionistaEncontrado;
     }
 }
 

@@ -1,13 +1,17 @@
 package cr.ac.ucenfotec.logica.entidades;
 
 public class Moderador extends Usuario{
+    private static int contador = 0;
+
     //constructores
     public Moderador(){
         super();
     }
 
-    public Moderador(String nombre, String apellidos, String identificacion, int dia, int mes, int annio, String correo, String password) {
-        super(nombre, apellidos, identificacion, dia, mes, annio, correo, password);
+    public Moderador(String nombre, String apellidos, String cedula, int dia, int mes, int annio, String correo, String password) {
+        contador++;
+        super(nombre, apellidos, cedula, dia, mes, annio, correo, password);
+        id = "M-" + contador;
     }
 
     //toString

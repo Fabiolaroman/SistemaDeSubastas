@@ -5,12 +5,15 @@ import cr.ac.ucenfotec.logica.gestor.GestorSubastas;
 import java.util.ArrayList;
 
 public class Vendedor extends Usuario{
+    private static int contador = 0;
     private double puntuacion;
     private String direccion;
 
     //constructor
-    public Vendedor(String nombre, String apellidos, String identificacion, int dia, int mes, int annio, String correo, String password, String direccion){
-        super(nombre, apellidos, identificacion, dia, mes, annio, correo, password);
+    public Vendedor(String nombre, String apellidos, String cedula, int dia, int mes, int annio, String correo, String password, String direccion){
+        contador++;
+        super(nombre, apellidos, cedula, dia, mes, annio, correo, password);
+        id = "V-" + contador;
         this. direccion = direccion;
         this.puntuacion = 5.0;
     }
