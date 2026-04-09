@@ -6,7 +6,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class Subasta {
-    //atributos
     private String id;
     private static int contador = 0;
     private LocalDateTime fechaHoraVencimiento;
@@ -17,7 +16,6 @@ public class Subasta {
     private ArrayList<Item> items;
     private boolean estaActiva;
     private ArrayList<Oferta> ofertas;
-    //constructores
 
     public Subasta() {}
 
@@ -47,28 +45,11 @@ public class Subasta {
         this.ofertas = new ArrayList<>();
     }
 
-    //getters y setter
-
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public static int getContador() {
-        return contador;
-    }
-
-    public static void setContador(int contador) {
-        Subasta.contador = contador;
-    }
-
-    public LocalDateTime getFechaHoraVencimiento() {
-        return fechaHoraVencimiento;
-    }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public static int getContador() { return contador; }
+    public static void setContador(int contador) { Subasta.contador = contador; }
+    public LocalDateTime getFechaHoraVencimiento() { return fechaHoraVencimiento; }
 
     public Duration getTiempoRestante() {
         actualizarEstado();
@@ -83,39 +64,15 @@ public class Subasta {
         this.fechaHoraVencimiento = fechaHoraVencimiento;
     }
 
-    public Usuario getUsuarioCreador() {
-        return usuarioCreador;
-    }
+    public Usuario getUsuarioCreador() { return usuarioCreador; }
+    public void setUsuarioCreador(Usuario usuarioCreador) { this.usuarioCreador = usuarioCreador; }
+    public double getPuntuacion() { return puntuacion; }
+    public double getPrecioMinimo() { return precioMinimo; }
+    public void setPrecioMinimo(double precioMinimo) { this.precioMinimo = precioMinimo; }
+    public boolean isEstaActiva() { return estaActiva; }
+    public ArrayList<Item> getItems() { return items; }
+    public ArrayList<Oferta> getOfertas() { return ofertas; }
 
-    public void setUsuarioCreador(Usuario usuarioCreador) {
-        this.usuarioCreador = usuarioCreador;
-    }
-
-    public double getPuntuacion() {
-        return puntuacion;
-    }
-
-    public double getPrecioMinimo() {
-        return precioMinimo;
-    }
-
-    public void setPrecioMinimo(double precioMinimo) {
-        this.precioMinimo = precioMinimo;
-    }
-
-    public boolean isEstaActiva() {
-        return estaActiva;
-    }
-
-    public ArrayList<Item> getItems() {
-        return items;
-    }
-
-    public ArrayList<Oferta> getOfertas() {
-        return ofertas;
-    }
-
-    //actualizarEstado
     public void actualizarEstado(){
         if (LocalDateTime.now().isAfter(fechaHoraVencimiento) || fechaHoraVencimiento.isEqual(LocalDateTime.now())){
             this.estaActiva = false;
@@ -124,7 +81,6 @@ public class Subasta {
         }
     }
 
-    //ofertar
     public void addOferta(Oferta oferta){
         ofertas.add(oferta);
     }
@@ -133,23 +89,18 @@ public class Subasta {
         return ofertas.toString();
     }
 
-    //oferta mas alta
     public Oferta ofertaGanadora(){
-        Oferta ofertaganadora = null;
-        Oferta ofertaanterior = new Oferta(0);
+        Oferta mayor = new Oferta(0);
+
         for(Oferta oferta : ofertas){
-
-            if(oferta.getMonto() > ofertaanterior.getMonto()){
-                ofertaganadora = oferta;
+            if(oferta.getMonto() > mayor.getMonto()){
+                mayor = oferta;
             }
-            ofertaanterior = oferta;
-        };
+        }
 
-        return ofertaganadora;
-
+        return mayor;
     }
 
-    //toString
     public String toString(){
         return "Subasta: " + id + " Precio Minimo: $" + precioMinimo + "\n" + items;
     }

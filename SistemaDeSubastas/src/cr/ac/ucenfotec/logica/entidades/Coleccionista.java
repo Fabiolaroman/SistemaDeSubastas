@@ -59,11 +59,7 @@ public class Coleccionista extends Usuario{
     }
 
     public void eliminar(String idItem){
-        coleccion.forEach(item -> {
-            if (idItem.equals(item.getId())) {
-                coleccion.remove(item);
-            }
-        });
+        coleccion.removeIf(item -> item.getId().equals(idItem));
     }
 
     public void agregarInteres(String interes){
@@ -97,7 +93,11 @@ public class Coleccionista extends Usuario{
     //crear subasta
     public void crearSubasta(GestorSubastas gestor, int dia, int mes, int annio, int hora, int minutos, double precio, ArrayList<Item> items){
         if (this.coleccion.containsAll(items)) {
-            gestor.crearSubasta(dia, mes, annio, hora, minutos, this, precio, items);
+            try {
+                gestor.crearSubasta(dia, mes, annio, hora, minutos, this, precio, items);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         } else {
             System.out.println("Solo puedes vender items de tu colección");
         }

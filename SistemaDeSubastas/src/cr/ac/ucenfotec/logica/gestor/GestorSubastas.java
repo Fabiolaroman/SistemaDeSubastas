@@ -1,6 +1,7 @@
 package cr.ac.ucenfotec.logica.gestor;
 
 import cr.ac.ucenfotec.logica.entidades.*;
+import cr.ac.ucenfotec.logica.excepciones.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,43 +12,72 @@ public class GestorSubastas {
     private ArrayList<OrdenAdjudicacion> ordenes;
 
     //constructor
-    public GestorSubastas() {subastas = new ArrayList<>();}
-
-    //crear subasta
-    public void crearSubasta(int dia, int mes, int annio, int hora, int minutos, Vendedor usuario, double precio, ArrayList<Item> items){
-        Subasta subasta = new Subasta(dia, mes, annio, hora, minutos, usuario, precio, items);
-        if(!subasta.getFechaHoraVencimiento().isEqual(LocalDateTime.now()) && !subasta.getFechaHoraVencimiento().isBefore(LocalDateTime.now())){
-            subastas.add(subasta);
-        } else {
-            System.out.println("La fecha limite debe estar en el futuro");
-        }
-
+    public GestorSubastas() {
+        subastas = new ArrayList<>();
+        ordenes = new ArrayList<>();
     }
 
-    public void crearSubasta(int dia, int mes, int annio, int hora, int minutos, Coleccionista usuario, double precio, ArrayList<Item> items){
-        Subasta subasta = new Subasta(dia, mes, annio, hora, minutos, usuario, precio, items);
-        if(!subasta.getFechaHoraVencimiento().isEqual(LocalDateTime.now()) && !subasta.getFechaHoraVencimiento().isBefore(LocalDateTime.now())){
-            subastas.add(subasta);
-        } else {
-            System.out.println("La fecha limite debe estar en el futuro");
-        }
+    //crear subasta
+    public void crearSubasta(int dia, int mes, int annio, int hora, int minutos, Vendedor usuario, double precio, ArrayList<Item> items)
+            throws FechaInvalidaException {
 
+        try {
+            Subasta subasta = new Subasta(dia, mes, annio, hora, minutos, usuario, precio, items);
+
+            if(!subasta.getFechaHoraVencimiento().isEqual(LocalDateTime.now()) &&
+                    !subasta.getFechaHoraVencimiento().isBefore(LocalDateTime.now())){
+                subastas.add(subasta);
+            } else {
+                throw new FechaInvalidaException("La fecha limite debe estar en el futuro");
+            }
+
+        } catch (FechaInvalidaException e) {
+            throw e;
+        }
+    }
+
+    public void crearSubasta(int dia, int mes, int annio, int hora, int minutos, Coleccionista usuario, double precio, ArrayList<Item> items)
+            throws FechaInvalidaException {
+
+        try {
+            Subasta subasta = new Subasta(dia, mes, annio, hora, minutos, usuario, precio, items);
+
+            if(!subasta.getFechaHoraVencimiento().isEqual(LocalDateTime.now()) &&
+                    !subasta.getFechaHoraVencimiento().isBefore(LocalDateTime.now())){
+                subastas.add(subasta);
+            } else {
+                throw new FechaInvalidaException("La fecha limite debe estar en el futuro");
+            }
+
+        } catch (FechaInvalidaException e) {
+            throw e;
+        }
     }
 
     //getter
-
-
     public ArrayList<Subasta> getSubastas() {
         return subastas;
     }
 
     //ofertar
-    public void agregarOferta(String idSubasta, Coleccionista usuario, double monto){
+    public void agregarOferta(String idSubasta, Coleccionista usuario, double monto)
+            throws SubastaNoExisteException, OfertaInvalidaException {
+
         Subasta subasta = subastaXId(idSubasta);
-        subasta. actualizarEstado();
+
+        subasta.actualizarEstado();
+
         if(subasta.isEstaActiva()){
+
+            if(monto <= subasta.getPrecioMinimo()){
+                throw new OfertaInvalidaException("La oferta debe ser mayor al precio mínimo");
+            }
+
             Oferta oferta = new Oferta(usuario, monto);
             subasta.addOferta(oferta);
+
+        } else {
+            throw new OfertaInvalidaException("La subasta está cerrada");
         }
     }
 
@@ -57,7 +87,11 @@ public class GestorSubastas {
             subasta.actualizarEstado();
             if(!subasta.isEstaActiva()){
                 if(!subasta.getOfertas().isEmpty()){
-                    OrdenAdjudicacion orden = new OrdenAdjudicacion(subasta.ofertaGanadora().getUsuario(), subasta, subasta.ofertaGanadora());
+                    OrdenAdjudicacion orden = new OrdenAdjudicacion(
+                            subasta.ofertaGanadora().getUsuario(),
+                            subasta,
+                            subasta.ofertaGanadora()
+                    );
                     ordenes.add(orden);
                     subasta.ofertaGanadora().getUsuario().agregarItems(subasta.getItems());
                 }
@@ -66,7 +100,7 @@ public class GestorSubastas {
     }
 
     //subastaXId
-    public Subasta subastaXId(String id){
+    public Subasta subastaXId(String id) throws SubastaNoExisteException {
         Subasta subastaEncontrado = null;
         boolean encontrado = false;
 
@@ -78,8 +112,9 @@ public class GestorSubastas {
         }
 
         if(!encontrado){
-            System.out.println("Subasta no exite");
+            throw new SubastaNoExisteException("Subasta no existe");
         }
+
         return subastaEncontrado;
     }
 }

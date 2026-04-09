@@ -56,6 +56,10 @@ public class Vendedor extends Usuario{
 
     //crear subasta
     public void crearSubasta(GestorSubastas gestor, int dia, int mes, int annio, int hora, int minutos, double precio, ArrayList<Item> items){
-        gestor.crearSubasta(dia, mes, annio, hora, minutos, this, precio, items);
+        try {
+            gestor.crearSubasta(dia, mes, annio, hora, minutos, this, precio, items);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

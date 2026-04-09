@@ -4,6 +4,7 @@ import cr.ac.ucenfotec.logica.entidades.Coleccionista;
 import cr.ac.ucenfotec.logica.entidades.Moderador;
 import cr.ac.ucenfotec.logica.entidades.Usuario;
 import cr.ac.ucenfotec.logica.entidades.Vendedor;
+import cr.ac.ucenfotec.logica.excepciones.*;
 
 import java.util.ArrayList;
 
@@ -20,56 +21,55 @@ public class GestorUsuarios {
 
     // registrar usuario
     public void registrarModerador(String nombre, String apellidos, String id, int dia, int mes, int annio, String correo, String password) {
-            moderador = new Moderador(nombre, apellidos, id, dia, mes, annio, correo, password);
+        moderador = new Moderador(nombre, apellidos, id, dia, mes, annio, correo, password);
     }
 
-    public void registrarVendedor(String nombre, String apellidos, String id, int dia, int mes, int annio, String correo, String password, String direccion) {
+    public void registrarVendedor(String nombre, String apellidos, String id, int dia, int mes, int annio, String correo, String password, String direccion)
+            throws UsuarioInvalidoException {
+
         Vendedor usuario = new Vendedor(nombre, apellidos, id, dia, mes, annio, correo, password, direccion);
+
         if(usuario.getEdad() >= 18) {
-                vendedores.add(usuario);
-            } else {
-                System.out.println("Debe ser mayor de edad para registrarse en nuestro sistema");
-            }
+            vendedores.add(usuario);
+        } else {
+            throw new UsuarioInvalidoException("Debe ser mayor de edad para registrarse en nuestro sistema");
+        }
     }
 
-    public void registrarColeccionista(String nombre, String apellidos, String id, int dia, int mes, int annio, String correo, String password, String direccion) {
+    public void registrarColeccionista(String nombre, String apellidos, String id, int dia, int mes, int annio, String correo, String password, String direccion)
+            throws UsuarioInvalidoException {
+
         Coleccionista usuario = new Coleccionista(nombre, apellidos, id, dia, mes, annio, correo, password, direccion);
+
         if(usuario.getEdad() >= 18) {
-                coleccionistas.add(usuario);
-            } else {
-                System.out.println("Debe ser mayor de edad para registrarse en nuestro sistema");
-            }
+            coleccionistas.add(usuario);
+        } else {
+            throw new UsuarioInvalidoException("Debe ser mayor de edad para registrarse en nuestro sistema");
+        }
     }
 
     // listar usuarios
     public void listarVendedores() {
-
         if (vendedores.isEmpty()) {
             System.out.println("No hay vendedores registrados");
         } else {
-
             for (Usuario u : vendedores) {
                 System.out.println(u);
             }
-
         }
     }
 
     public void listarColeccionistas() {
-
         if (coleccionistas.isEmpty()) {
             System.out.println("No hay vendedores registrados");
         } else {
-
             for (Usuario u : coleccionistas) {
                 System.out.println(u);
             }
-
         }
     }
+
     //getter
-
-
     public Moderador getModerador() {
         return moderador;
     }
@@ -83,14 +83,12 @@ public class GestorUsuarios {
     }
 
     //setter
-
-
     public void setModerador(Moderador moderador) {
         this.moderador = moderador;
     }
 
     //usuarioXid
-    public Vendedor vendedorXId(String id){
+    public Vendedor vendedorXId(String id) throws UsuarioNoExisteException {
         Vendedor vendedorEncontrado = null;
         boolean encontrado = false;
 
@@ -102,12 +100,12 @@ public class GestorUsuarios {
         }
 
         if(!encontrado){
-            System.out.println("Usuario no exite");
+            throw new UsuarioNoExisteException("Usuario no existe");
         }
         return vendedorEncontrado;
     }
 
-    public Coleccionista coleccionistaXId(String id){
+    public Coleccionista coleccionistaXId(String id) throws UsuarioNoExisteException {
         Coleccionista coleccionistaEncontrado = null;
         boolean encontrado = false;
 
@@ -119,9 +117,8 @@ public class GestorUsuarios {
         }
 
         if(!encontrado){
-            System.out.println("Usuario no exite");
+            throw new UsuarioNoExisteException("Usuario no existe");
         }
         return coleccionistaEncontrado;
     }
 }
-
