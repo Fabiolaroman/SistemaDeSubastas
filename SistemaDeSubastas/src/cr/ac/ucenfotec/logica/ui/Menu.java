@@ -224,6 +224,7 @@ public class Menu {
                     } else {
                         menuCrearSubasta(coleccionista);
                     }
+                    break;
 
                 case "4":
                     System.out.println("\n-----Mis Subastas-----");
@@ -233,7 +234,8 @@ public class Menu {
 
                 case "5":
                     System.out.print("\n-----Intereses-----");
-                    System.out.print(coleccionista.getIntereses());
+                    System.out.print("\n" + coleccionista.getIntereses());
+                    break;
 
                 case "6":
                     System.out.print("\n-----Intereses-----");
