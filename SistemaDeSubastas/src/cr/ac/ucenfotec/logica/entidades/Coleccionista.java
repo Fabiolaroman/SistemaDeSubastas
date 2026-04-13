@@ -57,7 +57,7 @@ public class Coleccionista extends Usuario{
         }
 
         if (!encontrado) {
-            throw new ItemNoExisteException("Item no existe");
+            throw new ItemNoExisteException("Item  no existe");
         }
         return itemEncontrado;
     }
