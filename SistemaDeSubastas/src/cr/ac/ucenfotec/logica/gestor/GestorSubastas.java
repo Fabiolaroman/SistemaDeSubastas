@@ -8,21 +8,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class GestorSubastas {
-    private ArrayList<Subasta> subastas;
-    private ArrayList<OrdenAdjudicacion> ordenes;
-
-    //constructor
-    public GestorSubastas() {
-        subastas = new ArrayList<>();
-        ordenes = new ArrayList<>();
-    }
+    private final static ArrayList<Subasta> subastas = new ArrayList<>();
+    private final static ArrayList<OrdenAdjudicacion> ordenes = new ArrayList<>();
 
     //crear subasta
-    public void crearSubasta(int dia, int mes, int annio, int hora, int minutos, Vendedor usuario, double precio, ArrayList<Item> items)
-            throws FechaInvalidaException {
+    public static void crearSubasta(LocalDateTime fechaHoraVencimiento, Vendedor usuario, double precio, ArrayList<Item> items) {
 
         try {
-            Subasta subasta = new Subasta(dia, mes, annio, hora, minutos, usuario, precio, items);
+            Subasta subasta = new Subasta(fechaHoraVencimiento, usuario, precio, items);
 
             if(!subasta.getFechaHoraVencimiento().isEqual(LocalDateTime.now()) &&
                     !subasta.getFechaHoraVencimiento().isBefore(LocalDateTime.now())){
@@ -32,15 +25,14 @@ public class GestorSubastas {
             }
 
         } catch (FechaInvalidaException e) {
-            throw e;
+            System.out.println(e.getMessage());
         }
     }
 
-    public void crearSubasta(int dia, int mes, int annio, int hora, int minutos, Coleccionista usuario, double precio, ArrayList<Item> items)
-            throws FechaInvalidaException {
+    public static void crearSubasta(LocalDateTime fechaHoraVencimiento, Coleccionista usuario, double precio, ArrayList<Item> items) {
 
         try {
-            Subasta subasta = new Subasta(dia, mes, annio, hora, minutos, usuario, precio, items);
+            Subasta subasta = new Subasta(fechaHoraVencimiento, usuario, precio, items);
 
             if(!subasta.getFechaHoraVencimiento().isEqual(LocalDateTime.now()) &&
                     !subasta.getFechaHoraVencimiento().isBefore(LocalDateTime.now())){
@@ -50,39 +42,61 @@ public class GestorSubastas {
             }
 
         } catch (FechaInvalidaException e) {
-            throw e;
+            System.out.println(e.getMessage());
         }
     }
 
     //getter
-    public ArrayList<Subasta> getSubastas() {
+    public static ArrayList<Subasta> getSubastas() {
         return subastas;
     }
 
-    //ofertar
-    public void agregarOferta(String idSubasta, Coleccionista usuario, double monto)
-            throws SubastaNoExisteException, OfertaInvalidaException {
-
-        Subasta subasta = subastaXId(idSubasta);
-
-        subasta.actualizarEstado();
-
-        if(subasta.isEstaActiva()){
-
-            if(monto <= subasta.getPrecioMinimo()){
-                throw new OfertaInvalidaException("La oferta debe ser mayor al precio mínimo");
+    public static ArrayList<Subasta> getSubastasActivas() {
+        ArrayList<Subasta> subastasActivas = new ArrayList<>();
+        for (Subasta subasta : subastas){
+            if (subasta.getFechaHoraVencimiento().isAfter(LocalDateTime.now())){
+                subastasActivas.add(subasta);
             }
+        }
+        return subastasActivas;
+    }
 
-            Oferta oferta = new Oferta(usuario, monto);
-            subasta.addOferta(oferta);
+    public static ArrayList<Subasta> getSubastasXUsuario(Usuario usuario){
+        ArrayList<Subasta> subastasUsuario =  new ArrayList<>();
+        for (Subasta subasta : subastas){
+            if (subasta.getUsuarioCreador().equals(usuario)){
+                subastasUsuario.add(subasta);
+            }
+        }
 
-        } else {
-            throw new OfertaInvalidaException("La subasta está cerrada");
+        return subastasUsuario;
+    }
+
+    //ofertar
+    public static void agregarOferta(Subasta subasta, Coleccionista usuario, double monto) {
+
+        try {
+            subasta.actualizarEstado();
+
+            if (subasta.isEstaActiva()) {
+
+                if (monto <= subasta.getPrecioMinimo()) {
+                    throw new OfertaInvalidaException("La oferta debe ser mayor al precio mínimo");
+                }
+
+                Oferta oferta = new Oferta(usuario, monto);
+                subasta.addOferta(oferta);
+
+            } else {
+                throw new OfertaInvalidaException("La subasta está cerrada");
+            }
+        } catch (OfertaInvalidaException e){
+            System.out.println(e.getMessage());
         }
     }
 
     //adjudicar
-    public void adjudicarSubastasVencidas(){
+    public static void adjudicarSubastasVencidas(){
         subastas.forEach(subasta -> {
             subasta.actualizarEstado();
             if(!subasta.isEstaActiva()){
@@ -100,21 +114,19 @@ public class GestorSubastas {
     }
 
     //subastaXId
-    public Subasta subastaXId(String id) throws SubastaNoExisteException {
+    public static Subasta subastaXId(String id) throws SubastaNoExisteException {
         Subasta subastaEncontrado = null;
         boolean encontrado = false;
-
-        for (Subasta cliente : subastas){
-            if(cliente.getId().equals(id)){
+        for (Subasta cliente : subastas) {
+            if (cliente.getId().equals(id)) {
                 subastaEncontrado = cliente;
                 encontrado = true;
             }
         }
 
-        if(!encontrado){
+        if (!encontrado) {
             throw new SubastaNoExisteException("Subasta no existe");
         }
-
         return subastaEncontrado;
     }
 }

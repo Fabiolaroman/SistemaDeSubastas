@@ -6,50 +6,51 @@ import cr.ac.ucenfotec.logica.entidades.Usuario;
 import cr.ac.ucenfotec.logica.entidades.Vendedor;
 import cr.ac.ucenfotec.logica.excepciones.*;
 
+import javax.sound.midi.SysexMessage;
 import java.util.ArrayList;
 
 public class GestorUsuarios {
 
-    private Moderador moderador;
-    private ArrayList<Vendedor> vendedores;
-    private ArrayList<Coleccionista> coleccionistas;
-
-    public GestorUsuarios() {
-        vendedores = new ArrayList<>();
-        coleccionistas = new ArrayList<>();
-    }
+    private static Moderador moderador;
+    private static final ArrayList<Vendedor> vendedores = new ArrayList<>();
+    private static final ArrayList<Coleccionista> coleccionistas = new ArrayList<>();
 
     // registrar usuario
-    public void registrarModerador(String nombre, String apellidos, String id, int dia, int mes, int annio, String correo, String password) {
+    public static void registrarModerador(String nombre, String apellidos, String id, int dia, int mes, int annio, String correo, String password) {
         moderador = new Moderador(nombre, apellidos, id, dia, mes, annio, correo, password);
     }
 
-    public void registrarVendedor(String nombre, String apellidos, String id, int dia, int mes, int annio, String correo, String password, String direccion)
-            throws UsuarioInvalidoException {
+    public static void registrarVendedor(String nombre, String apellidos, String id, int dia, int mes, int annio, String correo, String password, String direccion) throws UsuarioInvalidoException {
 
         Vendedor usuario = new Vendedor(nombre, apellidos, id, dia, mes, annio, correo, password, direccion);
 
-        if(usuario.getEdad() >= 18) {
+        if (usuario.getEdad() >= 18) {
             vendedores.add(usuario);
         } else {
             throw new UsuarioInvalidoException("Debe ser mayor de edad para registrarse en nuestro sistema");
         }
+
+        vendedores.add(usuario);
+        System.out.print("\n!!! Su ID de usuario es: " + usuario.getId() + " !!!\n");
     }
 
-    public void registrarColeccionista(String nombre, String apellidos, String id, int dia, int mes, int annio, String correo, String password, String direccion)
-            throws UsuarioInvalidoException {
+    public static void registrarColeccionista(String nombre, String apellidos, String id, int dia, int mes, int annio, String correo, String password, String direccion) throws UsuarioInvalidoException {
 
         Coleccionista usuario = new Coleccionista(nombre, apellidos, id, dia, mes, annio, correo, password, direccion);
 
-        if(usuario.getEdad() >= 18) {
+        if (usuario.getEdad() >= 18) {
             coleccionistas.add(usuario);
         } else {
-            throw new UsuarioInvalidoException("Debe ser mayor de edad para registrarse en nuestro sistema");
+            throw new UsuarioInvalidoException("\n ¡Debe ser mayor de edad para registrarse en nuestro sistema!");
         }
+
+        coleccionistas.add(usuario);
+        System.out.print("\n!!! Su ID de usuario es: " + usuario.getId() + " !!!\n");
+
     }
 
     // listar usuarios
-    public void listarVendedores() {
+    public static void listarVendedores() {
         if (vendedores.isEmpty()) {
             System.out.println("No hay vendedores registrados");
         } else {
@@ -59,7 +60,7 @@ public class GestorUsuarios {
         }
     }
 
-    public void listarColeccionistas() {
+    public static void listarColeccionistas() {
         if (coleccionistas.isEmpty()) {
             System.out.println("No hay vendedores registrados");
         } else {
@@ -70,53 +71,53 @@ public class GestorUsuarios {
     }
 
     //getter
-    public Moderador getModerador() {
+    public static Moderador getModerador() {
         return moderador;
     }
 
-    public ArrayList<Vendedor> getVendedores() {
+    public static ArrayList<Vendedor> getVendedores() {
         return vendedores;
     }
 
-    public ArrayList<Coleccionista> getColeccionistas() {
+    public static ArrayList<Coleccionista> getColeccionistas() {
         return coleccionistas;
     }
 
     //setter
-    public void setModerador(Moderador moderador) {
-        this.moderador = moderador;
+    public static void setModerador(Moderador mod) {
+        moderador = mod;
     }
 
     //usuarioXid
-    public Vendedor vendedorXId(String id) throws UsuarioNoExisteException {
+    public static Vendedor vendedorXId(String id) throws UsuarioNoExisteException {
         Vendedor vendedorEncontrado = null;
         boolean encontrado = false;
 
-        for (Vendedor vendedor : vendedores){
-            if(vendedor.getId().equals(id)){
+        for (Vendedor vendedor : vendedores) {
+            if (vendedor.getId().equals(id)) {
                 vendedorEncontrado = vendedor;
                 encontrado = true;
             }
         }
 
-        if(!encontrado){
+        if (!encontrado) {
             throw new UsuarioNoExisteException("Usuario no existe");
         }
         return vendedorEncontrado;
     }
 
-    public Coleccionista coleccionistaXId(String id) throws UsuarioNoExisteException {
+    public static Coleccionista coleccionistaXId(String id) throws UsuarioNoExisteException {
         Coleccionista coleccionistaEncontrado = null;
         boolean encontrado = false;
 
-        for (Coleccionista coleccionista : coleccionistas){
-            if(coleccionista.getId().equals(id)){
+        for (Coleccionista coleccionista : coleccionistas) {
+            if (coleccionista.getId().equals(id)) {
                 coleccionistaEncontrado = coleccionista;
                 encontrado = true;
             }
         }
 
-        if(!encontrado){
+        if (!encontrado) {
             throw new UsuarioNoExisteException("Usuario no existe");
         }
         return coleccionistaEncontrado;

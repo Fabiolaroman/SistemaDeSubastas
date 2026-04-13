@@ -76,6 +76,7 @@ public abstract class Usuario {
     }
 
     public int getEdad() {
+        edad = Period.between(fechaNacimiento, LocalDate.now()).getYears();
         return edad;
     }
 

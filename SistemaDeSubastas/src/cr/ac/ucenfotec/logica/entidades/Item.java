@@ -93,7 +93,7 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item: " + nombre + " | Descripcción: " + descripcion;
+        return "ID: " + id +" | Item: " + nombre + " | Descripcción: " + descripcion;
     }
 
     //equals

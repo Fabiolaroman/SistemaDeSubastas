@@ -1,5 +1,7 @@
 package cr.ac.ucenfotec.logica.entidades;
 
+import cr.ac.ucenfotec.logica.excepciones.ItemNoExisteException;
+import cr.ac.ucenfotec.logica.excepciones.SubastaNoExisteException;
 import cr.ac.ucenfotec.logica.gestor.GestorSubastas;
 
 import java.util.ArrayList;
@@ -42,6 +44,22 @@ public class Coleccionista extends Usuario{
 
     public ArrayList<Item> getColeccion() {
         return coleccion;
+    }
+
+    public Item itemXID(String id)  throws ItemNoExisteException{
+        Item itemEncontrado = null;
+        boolean encontrado = false;
+        for (Item item : coleccion){
+            if (id.equals(item.getId())){
+                itemEncontrado = item;
+                encontrado = true;
+            }
+        }
+
+        if (!encontrado) {
+            throw new ItemNoExisteException("Item no existe");
+        }
+        return itemEncontrado;
     }
 
     public ArrayList<String> getIntereses() {
@@ -91,17 +109,17 @@ public class Coleccionista extends Usuario{
     }
 
     //crear subasta
-    public void crearSubasta(GestorSubastas gestor, int dia, int mes, int annio, int hora, int minutos, double precio, ArrayList<Item> items){
-        if (this.coleccion.containsAll(items)) {
-            try {
-                gestor.crearSubasta(dia, mes, annio, hora, minutos, this, precio, items);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        } else {
-            System.out.println("Solo puedes vender items de tu colección");
-        }
-    }
+//    public void crearSubasta(GestorSubastas gestor, int dia, int mes, int annio, int hora, int minutos, double precio, ArrayList<Item> items){
+//        if (this.coleccion.containsAll(items)) {
+//            try {
+//                gestor.crearSubasta(dia, mes, annio, hora, minutos, this, precio, items);
+//            } catch (Exception e) {
+//                System.out.println(e.getMessage());
+//            }
+//        } else {
+//            System.out.println("Solo puedes vender items de tu colección");
+//        }
+//    }
 
     //ofertar
 //    public void ofertar(GestorSubastas gestor, String idSubasta, double monto){

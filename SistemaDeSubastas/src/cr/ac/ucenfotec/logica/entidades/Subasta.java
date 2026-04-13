@@ -19,10 +19,10 @@ public class Subasta {
 
     public Subasta() {}
 
-    public Subasta(int dia, int mes, int annio, int hora, int minutos, Vendedor usuario, double precio, ArrayList<Item> items) {
+    public Subasta(LocalDateTime fechaHoraVencimiento, Vendedor usuario, double precio, ArrayList<Item> items) {
         contador++;
         this.id = "S-" + contador;
-        this.fechaHoraVencimiento = LocalDateTime.of(annio, mes, dia, hora, minutos);
+        this.fechaHoraVencimiento = fechaHoraVencimiento;
         this.tiempoRestante = Duration.between(fechaHoraVencimiento, LocalDateTime.now());
         this.usuarioCreador = usuario;
         this.puntuacion = usuario.getPuntuacion();
@@ -32,10 +32,10 @@ public class Subasta {
         this.ofertas = new ArrayList<>();
     }
 
-    public Subasta(int dia, int mes, int annio, int hora, int minutos, Coleccionista usuario, double precio, ArrayList<Item> items) {
+    public Subasta(LocalDateTime fechaHoraVencimiento, Coleccionista usuario, double precio, ArrayList<Item> items) {
         contador++;
         this.id = "S-" + contador;
-        this.fechaHoraVencimiento = LocalDateTime.of(annio, mes, dia, hora, minutos);
+        this.fechaHoraVencimiento = fechaHoraVencimiento;
         this.tiempoRestante = Duration.between(fechaHoraVencimiento, LocalDateTime.now());
         this.usuarioCreador = usuario;
         this.puntuacion = usuario.getPuntuacion();
@@ -102,6 +102,6 @@ public class Subasta {
     }
 
     public String toString(){
-        return "Subasta: " + id + " Precio Minimo: $" + precioMinimo + "\n" + items;
+        return "\nSubasta: " + id + " Precio Minimo: $" + precioMinimo + "\n" + items;
     }
 }
