@@ -1,11 +1,10 @@
-package cr.ac.ucenfotec.logica.gestor;
+package cr.ac.ucenfotec.bl.gestores;
 
-import cr.ac.ucenfotec.logica.entidades.*;
-import cr.ac.ucenfotec.logica.excepciones.*;
+import cr.ac.ucenfotec.bl.entidades.*;
+import cr.ac.ucenfotec.bl.excepciones.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class GestorSubastas {
     private final static ArrayList<Subasta> subastas = new ArrayList<>();

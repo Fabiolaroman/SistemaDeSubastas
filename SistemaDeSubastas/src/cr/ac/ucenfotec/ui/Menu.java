@@ -1,19 +1,18 @@
-package cr.ac.ucenfotec.logica.ui;
+package cr.ac.ucenfotec.ui;
 
-import cr.ac.ucenfotec.logica.entidades.*;
-import cr.ac.ucenfotec.logica.excepciones.ItemNoExisteException;
-import cr.ac.ucenfotec.logica.excepciones.SubastaNoExisteException;
-import cr.ac.ucenfotec.logica.excepciones.UsuarioInvalidoException;
-import cr.ac.ucenfotec.logica.excepciones.UsuarioNoExisteException;
+import cr.ac.ucenfotec.bl.entidades.*;
+import cr.ac.ucenfotec.bl.excepciones.ItemNoExisteException;
+import cr.ac.ucenfotec.bl.excepciones.SubastaNoExisteException;
+import cr.ac.ucenfotec.bl.excepciones.UsuarioInvalidoException;
+import cr.ac.ucenfotec.bl.excepciones.UsuarioNoExisteException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-git
-import static cr.ac.ucenfotec.logica.gestor.GestorSubastas.*;
-import static cr.ac.ucenfotec.logica.gestor.GestorUsuarios.*;
+import static cr.ac.ucenfotec.bl.gestores.GestorSubastas.*;
+import static cr.ac.ucenfotec.bl.gestores.GestorUsuarios.*;
 
 public class Menu {
     public static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));

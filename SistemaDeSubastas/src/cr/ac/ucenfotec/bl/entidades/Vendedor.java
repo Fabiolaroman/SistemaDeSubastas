@@ -1,8 +1,4 @@
-package cr.ac.ucenfotec.logica.entidades;
-
-import cr.ac.ucenfotec.logica.gestor.GestorSubastas;
-
-import java.util.ArrayList;
+package cr.ac.ucenfotec.bl.entidades;
 
 public class Vendedor extends Usuario{
     private static int contador = 0;

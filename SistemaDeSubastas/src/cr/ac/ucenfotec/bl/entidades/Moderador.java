@@ -1,4 +1,4 @@
-package cr.ac.ucenfotec.logica.entidades;
+package cr.ac.ucenfotec.bl.entidades;
 
 public class Moderador extends Usuario{
     private static int contador = 0;

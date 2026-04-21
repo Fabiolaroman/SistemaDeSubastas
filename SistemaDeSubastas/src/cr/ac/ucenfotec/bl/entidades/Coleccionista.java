@@ -1,8 +1,6 @@
-package cr.ac.ucenfotec.logica.entidades;
+package cr.ac.ucenfotec.bl.entidades;
 
-import cr.ac.ucenfotec.logica.excepciones.ItemNoExisteException;
-import cr.ac.ucenfotec.logica.excepciones.SubastaNoExisteException;
-import cr.ac.ucenfotec.logica.gestor.GestorSubastas;
+import cr.ac.ucenfotec.bl.excepciones.ItemNoExisteException;
 
 import java.util.ArrayList;
 

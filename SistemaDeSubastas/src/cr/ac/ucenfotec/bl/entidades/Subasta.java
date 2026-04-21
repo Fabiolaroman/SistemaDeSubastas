@@ -1,4 +1,4 @@
-package cr.ac.ucenfotec.logica.entidades;
+package cr.ac.ucenfotec.bl.entidades;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
