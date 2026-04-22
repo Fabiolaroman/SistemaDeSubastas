@@ -73,4 +73,14 @@ public class Controlador {
 
         return GestorVendedor.ingresarVendedor(loginId, password);
     }
+
+    public static Coleccionista ingresarColeccionista() throws IOException, SQLException, ClassNotFoundException, UsuarioNoExisteException, ContraseniaIncorrectaException {
+        System.out.println("---Inicio de Sesión---");
+        System.out.println("\nID de Usuario: ");
+        String loginId = in.readLine();
+        System.out.println("\nContraseña: ");
+        String password = in.readLine();
+
+        return GestorColeccionista.ingresarColeccionista(loginId, password);
+    }
 }

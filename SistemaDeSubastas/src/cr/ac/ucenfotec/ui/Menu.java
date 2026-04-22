@@ -101,62 +101,53 @@ public class Menu {
             System.out.println("- [3] Salir");
 
             String opcion = in.readLine();
-//            if (opcion.equals("1")) {
-//                System.out.println("\nID de Usuario: ");
-//                String loginId = in.readLine();
-//                Coleccionista loginColeccionista;
-//                try {
-//                    loginColeccionista = coleccionistaXId(loginId);
-//                } catch (UsuarioNoExisteException e) {
-//                    System.out.print(e.getMessage());
-//                    break;
-//                }
-//
-//                System.out.println("\nContraseña: ");
-//                String loginPassword = in.readLine();
-//                if (loginColeccionista.getPassword().equals(loginPassword)) {
-//                    ejecutando = false;
-//                    menuColeccionista(loginColeccionista);
-//                } else {
-//                    System.out.println("\n Contraseña incorrecta");
-//                }
-//
-//
-//            } else
-            if (opcion.equals("2")) {
-                registrarColeccionista();
-            }
 
-//
-//
-//
-//            } else if (opcion.equals("3")) {
-//                ejecutando = false;
-//            } else {
-//                System.out.println("\nOpción invalida");
-//            }
+            switch(opcion){
+                case "1":
+                    Coleccionista coleccionista;
+                    try {
+                        coleccionista = ingresarColeccionista();
+                    } catch(UsuarioNoExisteException | ContraseniaIncorrectaException e) {
+                        System.out.println(e.getMessage());
+                        break;
+                    }
+
+                    menuColeccionista(coleccionista);
+                    break;
+
+                case "2":
+                    registrarColeccionista();
+
+                case "3":
+                    ejecutando = false;
+                    break;
+
+                default:
+                    System.out.println("\nOpción invalida");
+                    break;
+            }
         }
 
     }
-//
-//    public static void menuColeccionista(Coleccionista coleccionista) throws IOException {
-//        boolean ejecutando = true;
-//        while (ejecutando) {
-//            System.out.println("\n-----Coleccionista " + coleccionista.getId() + "-----");
-//            System.out.println("- [1] Ver Colección");
-//            System.out.println("- [2] Ver Subastas Activas");
-//            System.out.println("- [3] Crear Nueva Subasta");
-//            System.out.println("- [4] Ver Mis Subastas");
-//            System.out.println("- [5] Ver Intereses");
-//            System.out.println("- [6] Agregar Intereses");
-//            System.out.println("- [7] Salir");
-//            String opcion = in.readLine();
-//            switch (opcion) {
-//                case "1":
-//                    System.out.println("\n-----Mi Colección-----");
-//                    System.out.println("\n" + coleccionista.getColeccion());
-//                    break;
-//
+
+    public static void menuColeccionista(Coleccionista coleccionista) throws IOException {
+        boolean ejecutando = true;
+        while (ejecutando) {
+            System.out.println("\n-----Coleccionista " + coleccionista.getId() + "-----");
+            System.out.println("- [1] Ver Colección");
+            System.out.println("- [2] Ver Subastas Activas");
+            System.out.println("- [3] Crear Nueva Subasta");
+            System.out.println("- [4] Ver Mis Subastas");
+            System.out.println("- [5] Ver Intereses");
+            System.out.println("- [6] Agregar Intereses");
+            System.out.println("- [7] Salir");
+            String opcion = in.readLine();
+            switch (opcion) {
+                case "1":
+                    System.out.println("\n-----Mi Colección-----");
+                    System.out.println("\n" + coleccionista.getColeccion());
+                    break;
+
 //                case "2":
 //                    System.out.println("\n-----Subastas-----" +
 //                            "\n" + getSubastasActivas());
@@ -179,37 +170,37 @@ public class Menu {
 //                        menuCrearSubasta(coleccionista);
 //                    }
 //                    break;
-//
-//                case "4":
-//                    System.out.println("\n-----Mis Subastas-----");
-//                    System.out.print(getSubastasXUsuario(coleccionista));
-//                    break;
-//
-//
-//                case "5":
-//                    System.out.print("\n-----Intereses-----");
-//                    System.out.print("\n" + coleccionista.getIntereses());
-//                    break;
-//
-//                case "6":
-//                    System.out.print("\n-----Intereses-----");
-//                    System.out.print("\n-Digite el interes de desea agregar:");
-//                    String interes = in.readLine();
-//                    coleccionista.agregarInteres(interes);
-//                    break;
-//
-//                case "7":
-//                    ejecutando = false;
-//                    break;
-//
-//                default:
-//                    System.out.println("Opción invalida");
-//                    break;
-//
-//            }
-//
-//        }
-//    }
+
+                case "4":
+                    System.out.println("\n-----Mis Subastas-----");
+                    System.out.print(getSubastasXUsuario(coleccionista));
+                    break;
+
+
+                case "5":
+                    System.out.print("\n-----Intereses-----");
+                    System.out.print("\n" + coleccionista.getIntereses());
+                    break;
+
+                case "6":
+                    System.out.print("\n-----Intereses-----");
+                    System.out.print("\n-Digite el interes de desea agregar:");
+                    String interes = in.readLine();
+                    coleccionista.agregarInteres(interes);
+                    break;
+
+                case "7":
+                    ejecutando = false;
+                    break;
+
+                default:
+                    System.out.println("Opción invalida");
+                    break;
+
+            }
+
+        }
+    }
 //
 //    public static void menuSubastasColeccionista(Coleccionista coleccionista, Subasta subasta) throws IOException {
 //        boolean ejecutando = true;
@@ -248,9 +239,9 @@ public class Menu {
             String opcion = in.readLine();
 
             switch(opcion) {
-                case "1":
-                    menuCrearSubasta(vendedor);
-                    break;
+//                case "1":
+//                    menuCrearSubasta(vendedor);
+//                    break;
 
                 case "2":
                     System.out.println("\n-----Mis Subastas-----");

@@ -7,6 +7,7 @@ import cr.ac.ucenfotec.dl.Conector;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Coleccionista extends Usuario{
@@ -36,6 +37,12 @@ public class Coleccionista extends Usuario{
         if (edad <= 18) {
             throw new UsuarioInvalidoException("Debe ser mayor de edad para registrarse en nuestro sistema");
         }
+    }
+
+    public Coleccionista(String id, String nombre, String apellidos, String cedula, LocalDate fechaNacimiento, String correo, String password, double puntuacion, String direccion) {
+        super(id, nombre, apellidos, cedula, fechaNacimiento, correo, password);
+        this.puntuacion = puntuacion;
+        this.direccion = direccion;
     }
 
     //getters y setters
