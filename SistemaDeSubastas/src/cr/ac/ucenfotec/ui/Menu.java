@@ -1,10 +1,7 @@
 package cr.ac.ucenfotec.ui;
 
 import cr.ac.ucenfotec.bl.entidades.*;
-import cr.ac.ucenfotec.bl.excepciones.ItemNoExisteException;
-import cr.ac.ucenfotec.bl.excepciones.SubastaNoExisteException;
-import cr.ac.ucenfotec.bl.excepciones.UsuarioInvalidoException;
-import cr.ac.ucenfotec.bl.excepciones.UsuarioNoExisteException;
+import cr.ac.ucenfotec.bl.excepciones.*;
 import cr.ac.ucenfotec.tl.Controlador;
 
 import java.io.BufferedReader;
@@ -13,6 +10,8 @@ import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+
 import static cr.ac.ucenfotec.bl.gestores.GestorSubastas.*;
 import static cr.ac.ucenfotec.tl.Controlador.*;
 
@@ -55,7 +54,7 @@ public class Menu {
         }
     }
 
-    public static void inicioVendedor() throws IOException, SQLException, UsuarioInvalidoException, ClassNotFoundException {
+    public static void inicioVendedor() throws IOException, SQLException, ClassNotFoundException {
         boolean ejecutando = true;
         while (ejecutando) {
             System.out.println("\n-----Vendedores-----");
@@ -64,35 +63,30 @@ public class Menu {
             System.out.println("- [3] Salir");
 
             String opcion = in.readLine();
-//            if (opcion.equals("1")) {
-//                System.out.println("\nID de Usuario: ");
-//                String loginId = in.readLine();
-//                Vendedor loginVendedor;
-//                try {
-//                    loginVendedor = vendedorXId(loginId);
-//                } catch (UsuarioNoExisteException e) {
-//                    System.out.print(e.getMessage());
-//                    break;
-//                }
-//
-//                System.out.println("\nContraseña: ");
-//                String loginPassword = in.readLine();
-//                if (loginVendedor.getPassword().equals(loginPassword)) {
-//                    ejecutando = false;
-//                    menuVendedor(loginVendedor);
-//                } else {
-//                    System.out.println("\n Contraseña incorrecta");
-//                }
-//
-//
-//            } else
-              if (opcion.equals("2")) {
+
+            switch(opcion){
+                case "1":
+                    Vendedor vendedor;
+                    try {
+                        vendedor = ingresarVendedor();
+                    } catch(UsuarioNoExisteException | ContraseniaIncorrectaException e) {
+                        System.out.println(e.getMessage());
+                        break;
+                    }
+
+                    menuVendedor(vendedor);
+                    break;
+
+                case "2":
                     registrarVendedor();
 
-              } else if (opcion.equals("3")) {
-                ejecutando = false;
-            } else {
-                System.out.println("\nOpción invalida");
+                case "3":
+                    ejecutando = false;
+                    break;
+
+                default:
+                    System.out.println("\nOpción invalida");
+                    break;
             }
         }
 
@@ -241,45 +235,45 @@ public class Menu {
 //        }
 //    }
 //
-//    public static void menuVendedor(Vendedor vendedor) throws IOException {
-//        boolean ejecutando = true;
-//        ArrayList<Item> itemsSubasta;
-//        while(ejecutando) {
-//            itemsSubasta = new ArrayList<>();
-//            System.out.println("\n-----Vendedor " + vendedor.getId() + "-----");
-//            System.out.println("\n- [1] Crear Nueva Subasta");
-//            System.out.println("\n- [2] Ver Mis Subastas");
-//            System.out.println("\n- [3] Adjudicar Subastas Vencidas");
-//            System.out.println("\n- [4] Salir");
-//            String opcion = in.readLine();
-//
-//            switch(opcion) {
-//                case "1":
-//                    menuCrearSubasta(vendedor);
-//                    break;
-//
-//                case "2":
-//                    System.out.println("\n-----Mis Subastas-----");
-//                    System.out.print(getSubastasXUsuario(vendedor));
-//                    break;
-//
-//                case "3":
-//                    adjudicarSubastasVencidas();
-//                    System.out.println("\nSe adjudicaron todas las subastas vencidas");
-//                    break;
-//
-//                case "4":
-//                    ejecutando = false;
-//                    break;
-//
-//                default:
-//                    System.out.println("\nOpción invalida");
-//            }
-//
-//        }
-//
-//    }
-//
+    public static void menuVendedor(Vendedor vendedor) throws IOException {
+        boolean ejecutando = true;
+        ArrayList<Item> itemsSubasta;
+        while(ejecutando) {
+            itemsSubasta = new ArrayList<>();
+            System.out.println("\n-----Vendedor " + vendedor.getId() + "-----");
+            System.out.println("\n- [1] Crear Nueva Subasta");
+            System.out.println("\n- [2] Ver Mis Subastas");
+            System.out.println("\n- [3] Adjudicar Subastas Vencidas");
+            System.out.println("\n- [4] Salir");
+            String opcion = in.readLine();
+
+            switch(opcion) {
+                case "1":
+                    menuCrearSubasta(vendedor);
+                    break;
+
+                case "2":
+                    System.out.println("\n-----Mis Subastas-----");
+                    System.out.print(getSubastasXUsuario(vendedor));
+                    break;
+
+                case "3":
+                    adjudicarSubastasVencidas();
+                    System.out.println("\nSe adjudicaron todas las subastas vencidas");
+                    break;
+
+                case "4":
+                    ejecutando = false;
+                    break;
+
+                default:
+                    System.out.println("\nOpción invalida");
+            }
+
+        }
+
+    }
+
 //    public static void menuCrearSubasta(Usuario usuario) throws IOException{
 //        System.out.println("\n-----Crear Subasta-----");
 //        ArrayList<Item> items = new ArrayList<>();

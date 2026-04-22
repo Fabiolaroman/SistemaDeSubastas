@@ -30,6 +30,17 @@ public abstract class Usuario {
         this.password = password;
     }
 
+    public Usuario(String id, String nombre, String apellidos, String cedula, LocalDate fechaNacimiento, String correo, String password) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.cedula = cedula;
+        this.fechaNacimiento = fechaNacimiento;
+        this.edad = Period.between(fechaNacimiento, LocalDate.now()).getYears();
+        this.correo = correo;
+        this.password = password;
+    }
+
     // Getter y Setters
 
 

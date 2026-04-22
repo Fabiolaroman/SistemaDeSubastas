@@ -21,4 +21,17 @@ public class AccesoBD {
         preparedStatement = conexion.prepareStatement(query);
         return preparedStatement.executeQuery();
     }
+
+    public ResultSet ejecutarQuery(String query, String s1) throws SQLException {
+        preparedStatement = conexion.prepareStatement(query);
+        preparedStatement.setString(1, s1);
+        return preparedStatement.executeQuery();
+    }
+
+    public ResultSet ejecutarQuery(String query, String s1, String s2) throws SQLException {
+        preparedStatement = conexion.prepareStatement(query);
+        preparedStatement.setString(1, s1);
+        preparedStatement.setString(2, s2);
+        return preparedStatement.executeQuery();
+    }
 }

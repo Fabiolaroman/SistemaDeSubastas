@@ -1,6 +1,10 @@
 package cr.ac.ucenfotec.tl;
 
+import cr.ac.ucenfotec.bl.entidades.Coleccionista;
+import cr.ac.ucenfotec.bl.entidades.Vendedor;
+import cr.ac.ucenfotec.bl.excepciones.ContraseniaIncorrectaException;
 import cr.ac.ucenfotec.bl.excepciones.UsuarioInvalidoException;
+import cr.ac.ucenfotec.bl.excepciones.UsuarioNoExisteException;
 import cr.ac.ucenfotec.bl.gestores.GestorColeccionista;
 import cr.ac.ucenfotec.bl.gestores.GestorUsuarios;
 import cr.ac.ucenfotec.bl.gestores.GestorVendedor;
@@ -58,5 +62,15 @@ public class Controlador {
             String direccion = in.readLine();
 
         System.out.println(GestorColeccionista.registrarVendedor(nombre, apellidos, cedula, dia, mes, annio, correo, password, direccion));
+    }
+
+    public static Vendedor ingresarVendedor() throws IOException, SQLException, ClassNotFoundException, UsuarioNoExisteException, ContraseniaIncorrectaException {
+        System.out.println("---Inicio de Sesión---");
+        System.out.println("\nID de Usuario: ");
+        String loginId = in.readLine();
+        System.out.println("\nContraseña: ");
+        String password = in.readLine();
+
+        return GestorVendedor.ingresarVendedor(loginId, password);
     }
 }

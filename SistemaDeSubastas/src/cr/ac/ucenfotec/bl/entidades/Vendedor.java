@@ -6,6 +6,7 @@ import cr.ac.ucenfotec.dl.Conector;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class Vendedor extends Usuario{
     private double puntuacion;
@@ -30,6 +31,12 @@ public class Vendedor extends Usuario{
         if (edad <= 18) {
             throw new UsuarioInvalidoException("Debe ser mayor de edad para registrarse en nuestro sistema");
         }
+    }
+
+    public Vendedor(String id, String nombre, String apellidos, String cedula, LocalDate fechaNacimiento, String correo, String password, double puntuacion, String direccion) {
+        super(id, nombre, apellidos, cedula, fechaNacimiento, correo, password);
+        this.puntuacion = puntuacion;
+        this.direccion = direccion;
     }
 
     //getters y setters
