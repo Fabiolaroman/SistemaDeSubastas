@@ -1,2 +1,2 @@
 # SistemaDeSubastas
-Primer avance proyecto programación orientada a objetos
+Proyecto de Sistemas de Subasta para coleccionistas avance final
