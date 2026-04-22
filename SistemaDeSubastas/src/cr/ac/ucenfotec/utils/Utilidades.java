@@ -8,7 +8,7 @@ public class Utilidades {
     public static String[] getProperties() throws IOException {
         String[] propiedades =  new String[5];
         Properties lectura = new Properties();
-        String ruta = "src/gonzalez/roberto/utils/bd.properties";
+        String ruta = "SistemaDeSubastas/src/cr/ac/ucenfotec/utils/bd.properties";
         try {
             lectura.load(new FileInputStream(ruta));
             propiedades[0] = lectura.getProperty("driver");

@@ -6,6 +6,8 @@ import cr.ac.ucenfotec.bl.entidades.Usuario;
 import cr.ac.ucenfotec.bl.entidades.Vendedor;
 import cr.ac.ucenfotec.bl.excepciones.*;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class GestorUsuarios {
@@ -19,9 +21,9 @@ public class GestorUsuarios {
         moderador = new Moderador(nombre, apellidos, id, dia, mes, annio, correo, password);
     }
 
-    public static void registrarVendedor(String nombre, String apellidos, String id, int dia, int mes, int annio, String correo, String password, String direccion) throws UsuarioInvalidoException {
+    public static void registrarVendedor(String nombre, String apellidos, String cedula, int dia, int mes, int annio, String correo, String password, String direccion) throws UsuarioInvalidoException, SQLException, IOException, ClassNotFoundException {
 
-        Vendedor usuario = new Vendedor(nombre, apellidos, id, dia, mes, annio, correo, password, direccion);
+        Vendedor usuario = new Vendedor(nombre, apellidos, cedula, dia, mes, annio, correo, password, direccion);
 
         if (usuario.getEdad() >= 18) {
             vendedores.add(usuario);

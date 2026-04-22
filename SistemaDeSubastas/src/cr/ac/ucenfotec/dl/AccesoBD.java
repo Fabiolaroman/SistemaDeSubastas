@@ -11,4 +11,14 @@ public class AccesoBD {
         Class.forName("com.mysql.cj.jdbc.Driver");
         conexion = DriverManager.getConnection(direccion, usuario, contrasenia);
     }
+
+    public void ejecutarStatement(String statement) throws SQLException {
+        this.statement = conexion.createStatement();
+        this.statement.executeUpdate(statement);
+    }
+
+    public ResultSet ejecutarQuery(String query) throws SQLException {
+        preparedStatement = conexion.prepareStatement(query);
+        return preparedStatement.executeQuery();
+    }
 }
