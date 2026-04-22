@@ -6,6 +6,7 @@ import cr.ac.ucenfotec.bl.excepciones.ContraseniaIncorrectaException;
 import cr.ac.ucenfotec.bl.excepciones.UsuarioInvalidoException;
 import cr.ac.ucenfotec.bl.excepciones.UsuarioNoExisteException;
 import cr.ac.ucenfotec.bl.gestores.GestorColeccionista;
+import cr.ac.ucenfotec.bl.gestores.GestorItem;
 import cr.ac.ucenfotec.bl.gestores.GestorUsuarios;
 import cr.ac.ucenfotec.bl.gestores.GestorVendedor;
 
@@ -82,5 +83,9 @@ public class Controlador {
         String password = in.readLine();
 
         return GestorColeccionista.ingresarColeccionista(loginId, password);
+    }
+
+    public static void mostrarColeccion(String idColeccionista) throws SQLException, IOException, ClassNotFoundException {
+        System.out.println(GestorItem.mostrarColeccion(idColeccionista));
     }
 }

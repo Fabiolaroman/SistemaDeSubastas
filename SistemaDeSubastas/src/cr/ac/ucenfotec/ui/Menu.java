@@ -18,7 +18,7 @@ import static cr.ac.ucenfotec.tl.Controlador.*;
 public class Menu {
     public static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
-    public static void iniciarMenu() throws IOException, SQLException, UsuarioInvalidoException, ClassNotFoundException {
+    public static void iniciarMenu() throws IOException, SQLException, ClassNotFoundException {
 //        registrarModerador("Roberto", "González", "117260520", 13, 11, 1998, "rgonzalezca@ucenfotec.ac.cr", "Password1");
         boolean ejecutando = true;
 
@@ -130,11 +130,11 @@ public class Menu {
 
     }
 
-    public static void menuColeccionista(Coleccionista coleccionista) throws IOException {
+    public static void menuColeccionista(Coleccionista coleccionista) throws IOException, SQLException, ClassNotFoundException {
         boolean ejecutando = true;
         while (ejecutando) {
             System.out.println("\n-----Coleccionista " + coleccionista.getId() + "-----");
-            System.out.println("- [1] Ver Colección");
+            System.out.println("- [1] Ver mi Colección");
             System.out.println("- [2] Ver Subastas Activas");
             System.out.println("- [3] Crear Nueva Subasta");
             System.out.println("- [4] Ver Mis Subastas");
@@ -144,8 +144,7 @@ public class Menu {
             String opcion = in.readLine();
             switch (opcion) {
                 case "1":
-                    System.out.println("\n-----Mi Colección-----");
-                    System.out.println("\n" + coleccionista.getColeccion());
+                    mostrarColeccion(coleccionista.getId());
                     break;
 
 //                case "2":
