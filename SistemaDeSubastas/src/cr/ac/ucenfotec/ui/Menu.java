@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import static cr.ac.ucenfotec.bl.gestores.GestorSubastas.*;
-import static cr.ac.ucenfotec.tl.Controlador.registrarVendedor;
+import static cr.ac.ucenfotec.tl.Controlador.*;
 
 public class Menu {
     public static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -27,7 +27,7 @@ public class Menu {
         while (ejecutando) {
             System.out.println("\nBienvenido al Subastador de Coleccionistas" +
                     "\n Ingresar como:" +
-                    "\n - [1]Venderdor" +
+                    "\n - [1]Vendedor" +
                     "\n - [2]Coleccionista" +
                     "\n - [3]Salir");
 
@@ -38,9 +38,9 @@ public class Menu {
                     inicioVendedor();
                     break;
 
-//                case "2":
-//                    inicioColeccionista();
-//                    break;
+                case "2":
+                    inicioColeccionista();
+                    break;
 
                 case "3":
                     ejecutando = false;
@@ -98,15 +98,15 @@ public class Menu {
 
     }
 
-//    public static void inicioColeccionista() throws IOException {
-//        boolean ejecutando = true;
-//        while (ejecutando) {
-//            System.out.println("\n-----Coleccionistas-----");
-//            System.out.println("- [1] Iniciar Sesión");
-//            System.out.println("- [2] Registrarse");
-//            System.out.println("- [3] Salir");
-//
-//            String opcion = in.readLine();
+    public static void inicioColeccionista() throws IOException, SQLException, ClassNotFoundException {
+        boolean ejecutando = true;
+        while (ejecutando) {
+            System.out.println("\n-----Coleccionistas-----");
+            System.out.println("- [1] Iniciar Sesión");
+            System.out.println("- [2] Registrarse");
+            System.out.println("- [3] Salir");
+
+            String opcion = in.readLine();
 //            if (opcion.equals("1")) {
 //                System.out.println("\nID de Usuario: ");
 //                String loginId = in.readLine();
@@ -128,40 +128,22 @@ public class Menu {
 //                }
 //
 //
-//            } else if (opcion.equals("2")) {
-//                System.out.println("\nNombre: ");
-//                String nombre = in.readLine();
-//                System.out.println("\nApellidos: ");
-//                String apellidos = in.readLine();
-//                System.out.println("\nCédula: ");
-//                String identificacion = in.readLine();
-//                System.out.println("\nFecha de nacimiento: Dia:");
-//                int dia = Integer.parseInt(in.readLine());
-//                System.out.println("\nFecha de nacimiento: Mes:");
-//                int mes = Integer.parseInt(in.readLine());
-//                System.out.println("\nFecha de nacimiento: Año:");
-//                int annio = Integer.parseInt(in.readLine());
-//                System.out.println("\nCorreo: ");
-//                String correo = in.readLine();
-//                System.out.println("\nContraseña: ");
-//                String password = in.readLine();
-//                System.out.println("\nDirección: ");
-//                String direccion = in.readLine();
+//            } else
+            if (opcion.equals("2")) {
+                registrarColeccionista();
+            }
+
 //
-//                try {
-//                    registrarColeccionista(nombre, apellidos, identificacion, dia, mes, annio, correo, password, direccion);
-//                } catch (UsuarioInvalidoException e) {
-//                    System.out.println(e.getMessage());
-//                }
+//
 //
 //            } else if (opcion.equals("3")) {
 //                ejecutando = false;
 //            } else {
 //                System.out.println("\nOpción invalida");
 //            }
-//        }
-//
-//    }
+        }
+
+    }
 //
 //    public static void menuColeccionista(Coleccionista coleccionista) throws IOException {
 //        boolean ejecutando = true;

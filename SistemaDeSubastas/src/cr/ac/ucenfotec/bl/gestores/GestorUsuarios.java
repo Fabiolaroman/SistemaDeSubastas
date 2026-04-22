@@ -35,7 +35,7 @@ public class GestorUsuarios {
         System.out.print("\n!!! Su ID de usuario es: " + usuario.getId() + " !!!\n");
     }
 
-    public static void registrarColeccionista(String nombre, String apellidos, String id, int dia, int mes, int annio, String correo, String password, String direccion) throws UsuarioInvalidoException {
+    public static void registrarColeccionista(String nombre, String apellidos, String id, int dia, int mes, int annio, String correo, String password, String direccion) throws UsuarioInvalidoException, SQLException, IOException, ClassNotFoundException {
 
         Coleccionista usuario = new Coleccionista(nombre, apellidos, id, dia, mes, annio, correo, password, direccion);
 

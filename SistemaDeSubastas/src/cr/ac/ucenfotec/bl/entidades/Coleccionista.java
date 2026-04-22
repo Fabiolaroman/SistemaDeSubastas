@@ -1,25 +1,41 @@
 package cr.ac.ucenfotec.bl.entidades;
 
 import cr.ac.ucenfotec.bl.excepciones.ItemNoExisteException;
+import cr.ac.ucenfotec.bl.excepciones.UsuarioInvalidoException;
+import cr.ac.ucenfotec.dl.Conector;
 
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Coleccionista extends Usuario{
-    private static int contador = 0;
     private double puntuacion;
     private String direccion;
     private ArrayList<Item> coleccion;
     private ArrayList<String> intereses;
 
     //constructor
-    public Coleccionista(String nombre, String apellidos, String cedula, int dia, int mes, int annio, String correo, String password, String direccion){
-        contador++;
+    private static int numeroUltimoID() throws SQLException, IOException, ClassNotFoundException {
+        String query = "SELECT * FROM t_coleccionista ORDER BY id DESC LIMIT 1;";
+        ResultSet resultado = Conector.getConexion().ejecutarQuery(query);
+        if (!resultado.next()) return 0;
+        String id = resultado.getString("id");
+        return Integer.parseInt(id.substring(2));
+    }
+
+    public Coleccionista(String nombre, String apellidos, String cedula, int dia, int mes, int annio, String correo, String password, String direccion) throws SQLException, IOException, ClassNotFoundException, UsuarioInvalidoException {
+        int numeroID = numeroUltimoID() + 1;
         super(nombre, apellidos, cedula, dia, mes, annio, correo, password);
-        id = "C-" + contador;
+        id = "C-" + numeroID;
         this.direccion = direccion;
         this.puntuacion = 5.0;
         coleccion = new ArrayList<>();
         intereses = new ArrayList<>();
+
+        if (edad <= 18) {
+            throw new UsuarioInvalidoException("Debe ser mayor de edad para registrarse en nuestro sistema");
+        }
     }
 
     //getters y setters
