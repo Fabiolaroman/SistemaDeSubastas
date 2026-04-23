@@ -1,0 +1,69 @@
+package cr.ac.ucenfotec.bl.dao;
+
+import cr.ac.ucenfotec.bl.entidades.*;
+import cr.ac.ucenfotec.bl.excepciones.UsuarioNoExisteException;
+import cr.ac.ucenfotec.dl.Conector;
+
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+public class DAOSubasta {
+    private static String statement;
+    private static String query;
+
+    public static String seleccionarSubastas(Vendedor vendedor) throws SQLException, IOException, ClassNotFoundException, UsuarioNoExisteException {
+        query = "SELECT * FROM t_subasta WHERE id_vendedor = ?;";
+        ResultSet resultadoSubasta = Conector.getConexion().ejecutarQuery(query, vendedor.getId());
+        if(!resultadoSubasta.next()) return "Usted no tiene ninguna Subasta";
+        Subasta subasta;
+
+        String listaSubastas = "\n---Mis Subastas---";
+
+        do {
+            query = "SELECT * FROM t_item WHERE id_subasta = ?;";
+            ResultSet resultadoItems = Conector.getConexion().ejecutarQuery(query, resultadoSubasta.getString("id"));
+            ArrayList<Item> items = new ArrayList<>();
+
+            query = "SELECT * FROM t_oferta WHERE id_subasta = ?;";
+            ResultSet resultadoOfertas = Conector.getConexion().ejecutarQuery(query, resultadoSubasta.getString("id"));
+            ArrayList<Oferta> ofertas = new ArrayList<>();
+
+            do{
+                Item item = new Item(
+                        resultadoItems.getString("id"),
+                        resultadoItems.getString("nombre"),
+                        resultadoItems.getString("descripcion"),
+                        resultadoItems.getString("estado"),
+                        resultadoItems.getDate("fecha_compra").toLocalDate()
+                );
+
+                items.add(item);
+
+
+                Coleccionista coleccionista = DAOColeccionista.seleccionarColeccionista(resultadoOfertas.getString("id_coleccionista"));
+
+                Oferta oferta = new Oferta( coleccionista, resultadoOfertas.getDouble("monto"));
+                ofertas.add(oferta);
+
+            } while (resultadoItems.next());
+
+            subasta = new Subasta(
+                    resultadoSubasta.getString("id"),
+                    resultadoSubasta.getTimestamp("fecha_vencimiento").toLocalDateTime(),
+                    vendedor,
+                    vendedor.getPuntuacion(),
+                    resultadoSubasta.getDouble("precio_minimo"),
+                    items,
+                    resultadoSubasta.getBoolean("esta_activa"),
+                    ofertas
+            );
+
+            listaSubastas += "\n" + subasta;
+
+        } while (resultadoSubasta.next());
+
+        return listaSubastas;
+    }
+}

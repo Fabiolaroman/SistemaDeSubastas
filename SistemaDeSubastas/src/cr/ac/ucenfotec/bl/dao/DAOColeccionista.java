@@ -41,4 +41,21 @@ public class DAOColeccionista {
                 resultado.getString("direccion")
         );
     }
+
+    public static Coleccionista seleccionarColeccionista(String loginId) throws SQLException, IOException, ClassNotFoundException, UsuarioNoExisteException, ContraseniaIncorrectaException {
+        query = "SELECT * FROM t_coleccionista WHERE id = ?;";
+        ResultSet resultado =  Conector.getConexion().ejecutarQuery(query, loginId);
+
+        return new Coleccionista(
+                resultado.getString("id"),
+                resultado.getString("nombre"),
+                resultado.getString("apellidos"),
+                resultado.getString("cedula"),
+                resultado.getDate("fecha_nacimiento").toLocalDate(),
+                resultado.getString("correo"),
+                resultado.getString("contrasenia"),
+                resultado.getDouble("puntuacion"),
+                resultado.getString("direccion")
+        );
+    }
 }

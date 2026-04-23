@@ -5,10 +5,7 @@ import cr.ac.ucenfotec.bl.entidades.Vendedor;
 import cr.ac.ucenfotec.bl.excepciones.ContraseniaIncorrectaException;
 import cr.ac.ucenfotec.bl.excepciones.UsuarioInvalidoException;
 import cr.ac.ucenfotec.bl.excepciones.UsuarioNoExisteException;
-import cr.ac.ucenfotec.bl.gestores.GestorColeccionista;
-import cr.ac.ucenfotec.bl.gestores.GestorItem;
-import cr.ac.ucenfotec.bl.gestores.GestorUsuarios;
-import cr.ac.ucenfotec.bl.gestores.GestorVendedor;
+import cr.ac.ucenfotec.bl.gestores.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -87,5 +84,9 @@ public class Controlador {
 
     public static void mostrarColeccion(String idColeccionista) throws SQLException, IOException, ClassNotFoundException {
         System.out.println(GestorItem.mostrarColeccion(idColeccionista));
+    }
+
+    public static void mostrarSubastas(Vendedor vendedor) throws UsuarioNoExisteException, SQLException, IOException, ClassNotFoundException {
+        System.out.print(GestorSubasta.mostrarSubastas(vendedor));
     }
 }

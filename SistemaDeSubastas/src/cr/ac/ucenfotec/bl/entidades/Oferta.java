@@ -1,18 +1,30 @@
 package cr.ac.ucenfotec.bl.entidades;
 
+import cr.ac.ucenfotec.dl.Conector;
+
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class Oferta {
 
+    private String id;
     private Coleccionista usuario;
     private double monto;
 
     // constructor
-    public Oferta() {}
-
-    public Oferta(double monto) {
-        this.monto = monto;
+    private static int numeroUltimoID() throws SQLException, IOException, ClassNotFoundException {
+        String query = "SELECT * FROM t_vendedor ORDER BY id DESC LIMIT 1;";
+        ResultSet resultado = Conector.getConexion().ejecutarQuery(query);
+        if (!resultado.next()) return 0;
+        String id = resultado.getString("id");
+        return Integer.parseInt(id.substring(2));
     }
 
-    public Oferta(Coleccionista usuario, double monto) {
+
+    public Oferta(Coleccionista usuario, double monto) throws SQLException, IOException, ClassNotFoundException {
+        int numeroID = numeroUltimoID() + 1;
+        this.id = "O-" + numeroID;
         this.usuario = usuario;
         this.monto = monto;
     }

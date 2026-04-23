@@ -225,7 +225,7 @@ public class Menu {
 //        }
 //    }
 //
-    public static void menuVendedor(Vendedor vendedor) throws IOException {
+    public static void menuVendedor(Vendedor vendedor) throws IOException, UsuarioNoExisteException, SQLException, ClassNotFoundException {
         boolean ejecutando = true;
         ArrayList<Item> itemsSubasta;
         while(ejecutando) {
@@ -244,7 +244,7 @@ public class Menu {
 
                 case "2":
                     System.out.println("\n-----Mis Subastas-----");
-                    System.out.print(getSubastasXUsuario(vendedor));
+                    mostrarSubastas(vendedor);
                     break;
 
                 case "3":
