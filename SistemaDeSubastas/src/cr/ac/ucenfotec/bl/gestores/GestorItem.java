@@ -8,6 +8,6 @@ import java.sql.SQLException;
 public class GestorItem {
 
     public static String mostrarColeccion(String idColeccionista) throws SQLException, IOException, ClassNotFoundException {
-        DAOItem.seleccionarColeccion(idColeccionista);
+       return DAOItem.seleccionarColeccion(idColeccionista);
     }
 }
