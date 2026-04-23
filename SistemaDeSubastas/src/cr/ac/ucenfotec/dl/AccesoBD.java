@@ -28,6 +28,12 @@ public class AccesoBD {
         return preparedStatement.executeQuery();
     }
 
+    public ResultSet ejecutarQuery(String query, Timestamp t) throws SQLException {
+        preparedStatement = conexion.prepareStatement(query);
+        preparedStatement.setTimestamp(1, t);
+        return preparedStatement.executeQuery();
+    }
+
     public ResultSet ejecutarQuery(String query, String s1, String s2) throws SQLException {
         preparedStatement = conexion.prepareStatement(query);
         preparedStatement.setString(1, s1);

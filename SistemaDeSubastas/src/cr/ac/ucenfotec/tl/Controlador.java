@@ -86,6 +86,10 @@ public class Controlador {
         System.out.println(GestorItem.mostrarColeccion(idColeccionista));
     }
 
+    public static void mostrarSubastasActivas() throws UsuarioNoExisteException, SQLException, IOException, ClassNotFoundException {
+        System.out.println(GestorSubasta.mostrarSubastasActivas());
+    }
+
     public static void mostrarSubastas(Vendedor vendedor) throws UsuarioNoExisteException, SQLException, IOException, ClassNotFoundException {
         System.out.print(GestorSubasta.mostrarSubastas(vendedor));
     }

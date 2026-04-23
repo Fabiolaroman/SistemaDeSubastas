@@ -9,6 +9,10 @@ import java.sql.SQLException;
 
 public class GestorSubasta {
 
+    public static String mostrarSubastasActivas() throws UsuarioNoExisteException, SQLException, IOException, ClassNotFoundException {
+        return DAOSubasta.seleccionarSubastasActivas();
+    }
+
     public static String mostrarSubastas(Vendedor vendedor) throws UsuarioNoExisteException, SQLException, IOException, ClassNotFoundException {
         return DAOSubasta.seleccionarSubastas(vendedor);
     }

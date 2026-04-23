@@ -40,4 +40,21 @@ public class DAOVendedor {
                 resultado.getString("direccion")
         );
     }
+
+    public static Vendedor seleccionarVendedor(String loginId) throws SQLException, IOException, ClassNotFoundException, UsuarioNoExisteException, ContraseniaIncorrectaException {
+        query = "SELECT * FROM t_vendedor WHERE id = ?;";
+        ResultSet resultado =  Conector.getConexion().ejecutarQuery(query, loginId);
+
+        return new Vendedor(
+                resultado.getString("id"),
+                resultado.getString("nombre"),
+                resultado.getString("apellidos"),
+                resultado.getString("cedula"),
+                resultado.getDate("fecha_nacimiento").toLocalDate(),
+                resultado.getString("correo"),
+                resultado.getString("contrasenia"),
+                resultado.getDouble("puntuacion"),
+                resultado.getString("direccion")
+        );
+    }
 }

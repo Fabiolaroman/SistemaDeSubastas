@@ -130,7 +130,7 @@ public class Menu {
 
     }
 
-    public static void menuColeccionista(Coleccionista coleccionista) throws IOException, SQLException, ClassNotFoundException {
+    public static void menuColeccionista(Coleccionista coleccionista) throws IOException, SQLException, ClassNotFoundException, UsuarioNoExisteException {
         boolean ejecutando = true;
         while (ejecutando) {
             System.out.println("\n-----Coleccionista " + coleccionista.getId() + "-----");
@@ -147,7 +147,9 @@ public class Menu {
                     mostrarColeccion(coleccionista.getId());
                     break;
 
-//                case "2":
+                case "2":
+                    mostrarSubastasActivas();
+                    break;
 //                    System.out.println("\n-----Subastas-----" +
 //                            "\n" + getSubastasActivas());
 //                    System.out.println("\nSeleccione una Subasta - Digite el ID de la Subasta:");
