@@ -9,6 +9,7 @@ import cr.ac.ucenfotec.dl.Conector;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class DAOColeccionista {
     private static String statement;
@@ -57,5 +58,19 @@ public class DAOColeccionista {
                 resultado.getDouble("puntuacion"),
                 resultado.getString("direccion")
         );
+    }
+
+    public static ArrayList<String> seleccionarIntereses(String idColeccionista) throws SQLException, IOException, ClassNotFoundException {
+
+        query = "SELECT i.nombre FROM t_interes i " +
+                "INNER JOIN t_coleccionista_interes ci ON i.id = ci.id_interes " +
+                "WHERE ci.id_coleccionista = ?;";
+        ResultSet resultado = Conector.getConexion().ejecutarQuery(query, idColeccionista);
+
+        ArrayList<String> intereses = new ArrayList<>();
+        while (resultado.next()) {
+            intereses.add(resultado.getString("nombre"));
+        }
+        return intereses;
     }
 }

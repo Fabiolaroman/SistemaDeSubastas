@@ -7,6 +7,7 @@ import cr.ac.ucenfotec.bl.excepciones.UsuarioNoExisteException;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class GestorColeccionista {
 
@@ -23,6 +24,14 @@ public class GestorColeccionista {
     }
 
     public static Coleccionista ingresarColeccionista(String loginId, String password) throws UsuarioNoExisteException, SQLException, IOException, ClassNotFoundException {
-        return DAOColeccionista.seleccionarColeccionista(loginId, password);
+        Coleccionista coleccionista = DAOColeccionista.seleccionarColeccionista(loginId, password);
+
+        ArrayList<String> intereses = DAOColeccionista.seleccionarIntereses(loginId);
+        intereses.forEach(coleccionista::agregarInteres);
+        return coleccionista;
+    }
+
+    public static ArrayList<String> obtenerIntereses(String idColeccionista) throws SQLException, IOException, ClassNotFoundException {
+        return DAOColeccionista.seleccionarIntereses(idColeccionista);
     }
 }
