@@ -15,7 +15,6 @@ public class DAOSubasta {
     private static String statement;
     private static String query;
 
-
     public static String seleccionarSubastasActivas() throws SQLException, IOException, ClassNotFoundException, UsuarioNoExisteException {
         Timestamp fechaHoraActual = Timestamp.valueOf(LocalDateTime.now());
         query = "SELECT * FROM t_subasta WHERE fecha_vencimiento > ?;";
@@ -37,7 +36,6 @@ public class DAOSubasta {
             Coleccionista coleccionista = null;
             Vendedor vendedor = null;
 
-
             do {
                 if (resultadoSubasta.getString("id_vendedor") != null) {
                     vendedor = DAOVendedor.seleccionarVendedor(resultadoSubasta.getString("id_vendedor"));
@@ -54,7 +52,6 @@ public class DAOSubasta {
                 );
 
                 items.add(item);
-
 
                 Coleccionista coleccionistaOferta = DAOColeccionista.seleccionarColeccionista(resultadoOfertas.getString("id_coleccionista"));
 
@@ -87,13 +84,60 @@ public class DAOSubasta {
                 );
             }
 
-
-
             listaSubastas += "\n" + subasta;
 
         } while (resultadoSubasta.next());
 
         return listaSubastas;
+    }
+
+    public static Subasta seleccionarSubastaPorId(String idSubasta) throws SQLException, IOException, ClassNotFoundException, UsuarioNoExisteException {
+        query = "SELECT * FROM t_subasta WHERE id = ?;";
+        ResultSet resultadoSubasta = Conector.getConexion().ejecutarQuery(query, idSubasta);
+        if (!resultadoSubasta.next()) return null;
+
+        query = "SELECT * FROM t_item WHERE id_subasta = ?;";
+        ResultSet resultadoItems = Conector.getConexion().ejecutarQuery(query, idSubasta);
+        ArrayList<Item> items = new ArrayList<>();
+        while (resultadoItems.next()) {
+            items.add(new Item(
+                    resultadoItems.getString("id"),
+                    resultadoItems.getString("nombre"),
+                    resultadoItems.getString("descripcion"),
+                    resultadoItems.getString("estado"),
+                    resultadoItems.getDate("fecha_compra").toLocalDate()
+            ));
+        }
+
+        ArrayList<Oferta> ofertas = new ArrayList<>();
+
+        Coleccionista coleccionista = null;
+        Vendedor vendedor = null;
+        if (resultadoSubasta.getString("id_vendedor") != null) {
+            vendedor = DAOVendedor.seleccionarVendedor(resultadoSubasta.getString("id_vendedor"));
+            return new Subasta(
+                    resultadoSubasta.getString("id"),
+                    resultadoSubasta.getTimestamp("fecha_vencimiento").toLocalDateTime(),
+                    vendedor,
+                    vendedor.getPuntuacion(),
+                    resultadoSubasta.getDouble("precio_minimo"),
+                    items,
+                    resultadoSubasta.getBoolean("esta_activa"),
+                    ofertas
+            );
+        } else {
+            coleccionista = DAOColeccionista.seleccionarColeccionista(resultadoSubasta.getString("id_coleccionista"));
+            return new Subasta(
+                    resultadoSubasta.getString("id"),
+                    resultadoSubasta.getTimestamp("fecha_vencimiento").toLocalDateTime(),
+                    coleccionista,
+                    coleccionista.getPuntuacion(),
+                    resultadoSubasta.getDouble("precio_minimo"),
+                    items,
+                    resultadoSubasta.getBoolean("esta_activa"),
+                    ofertas
+            );
+        }
     }
 
     public static String seleccionarSubastas(Vendedor vendedor) throws SQLException, IOException, ClassNotFoundException, UsuarioNoExisteException {
@@ -123,7 +167,6 @@ public class DAOSubasta {
                 );
 
                 items.add(item);
-
 
                 Coleccionista coleccionista = DAOColeccionista.seleccionarColeccionista(resultadoOfertas.getString("id_coleccionista"));
 

@@ -3,6 +3,7 @@ package cr.ac.ucenfotec.tl;
 import cr.ac.ucenfotec.bl.entidades.Coleccionista;
 import cr.ac.ucenfotec.bl.entidades.Vendedor;
 import cr.ac.ucenfotec.bl.excepciones.ContraseniaIncorrectaException;
+import cr.ac.ucenfotec.bl.excepciones.SubastaNoExisteException;
 import cr.ac.ucenfotec.bl.excepciones.UsuarioInvalidoException;
 import cr.ac.ucenfotec.bl.excepciones.UsuarioNoExisteException;
 import cr.ac.ucenfotec.bl.gestores.*;
@@ -41,23 +42,23 @@ public class Controlador {
 
     public static void registrarColeccionista() throws IOException, SQLException, ClassNotFoundException {
         System.out.println("\nNombre: ");
-            String nombre = in.readLine();
-            System.out.println("\nApellidos: ");
-            String apellidos = in.readLine();
-            System.out.println("\nCédula: ");
-            String cedula = in.readLine();
-            System.out.println("\nFecha de nacimiento: Dia:");
-            int dia = Integer.parseInt(in.readLine());
-            System.out.println("\nFecha de nacimiento: Mes:");
-            int mes = Integer.parseInt(in.readLine());
-            System.out.println("\nFecha de nacimiento: Año:");
-            int annio = Integer.parseInt(in.readLine());
-            System.out.println("\nCorreo: ");
-            String correo = in.readLine();
-            System.out.println("\nContraseña: ");
-            String password = in.readLine();
-            System.out.println("\nDirección: ");
-            String direccion = in.readLine();
+        String nombre = in.readLine();
+        System.out.println("\nApellidos: ");
+        String apellidos = in.readLine();
+        System.out.println("\nCédula: ");
+        String cedula = in.readLine();
+        System.out.println("\nFecha de nacimiento: Dia:");
+        int dia = Integer.parseInt(in.readLine());
+        System.out.println("\nFecha de nacimiento: Mes:");
+        int mes = Integer.parseInt(in.readLine());
+        System.out.println("\nFecha de nacimiento: Año:");
+        int annio = Integer.parseInt(in.readLine());
+        System.out.println("\nCorreo: ");
+        String correo = in.readLine();
+        System.out.println("\nContraseña: ");
+        String password = in.readLine();
+        System.out.println("\nDirección: ");
+        String direccion = in.readLine();
 
         System.out.println(GestorColeccionista.registrarVendedor(nombre, apellidos, cedula, dia, mes, annio, correo, password, direccion));
     }
@@ -92,5 +93,13 @@ public class Controlador {
 
     public static void mostrarSubastas(Vendedor vendedor) throws UsuarioNoExisteException, SQLException, IOException, ClassNotFoundException {
         System.out.print(GestorSubasta.mostrarSubastas(vendedor));
+    }
+
+    public static void realizarOferta(Coleccionista coleccionista) throws IOException, SQLException, ClassNotFoundException, UsuarioNoExisteException, SubastaNoExisteException {
+        System.out.println("\nDigite el ID de la subasta:");
+        String idSubasta = in.readLine();
+        System.out.println("\nDigite el monto de su oferta:");
+        double monto = Double.parseDouble(in.readLine());
+        System.out.println(GestorOferta.realizarOferta(idSubasta, coleccionista, monto));
     }
 }

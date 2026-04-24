@@ -10,8 +10,6 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
-import static cr.ac.ucenfotec.bl.entidades.Moderador.contador;
-
 public class Subasta {
     private String id;
     private LocalDateTime fechaHoraVencimiento;
@@ -24,7 +22,7 @@ public class Subasta {
     private ArrayList<Oferta> ofertas;
 
     private static int numeroUltimoID() throws SQLException, IOException, ClassNotFoundException {
-        String query = "SELECT * FROM t_vendedor ORDER BY id DESC LIMIT 1;";
+        String query = "SELECT * FROM t_subasta ORDER BY id DESC LIMIT 1;";
         ResultSet resultado = Conector.getConexion().ejecutarQuery(query);
         if (!resultado.next()) return 0;
         String id = resultado.getString("id");
@@ -112,10 +110,10 @@ public class Subasta {
     }
 
     public Oferta ofertaGanadora(){
-        Oferta mayor = new Oferta(0);
+        Oferta mayor = null;
 
         for(Oferta oferta : ofertas){
-            if(oferta.getMonto() > mayor.getMonto()){
+            if(mayor == null || oferta.getMonto() > mayor.getMonto()){
                 mayor = oferta;
             }
         }

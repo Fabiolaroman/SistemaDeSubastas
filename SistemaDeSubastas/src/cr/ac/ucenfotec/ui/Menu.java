@@ -14,14 +14,14 @@ import java.util.ConcurrentModificationException;
 
 import static cr.ac.ucenfotec.bl.gestores.GestorSubastas.*;
 import static cr.ac.ucenfotec.tl.Controlador.*;
+import cr.ac.ucenfotec.bl.excepciones.SubastaNoExisteException;
 
 public class Menu {
     public static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
-    public static void iniciarMenu() throws IOException, SQLException, ClassNotFoundException {
-//        registrarModerador("Roberto", "González", "117260520", 13, 11, 1998, "rgonzalezca@ucenfotec.ac.cr", "Password1");
-        boolean ejecutando = true;
+    public static void iniciarMenu() throws IOException, SQLException, ClassNotFoundException, UsuarioNoExisteException {
 
+        boolean ejecutando = true;
 
         while (ejecutando) {
             System.out.println("\nBienvenido al Subastador de Coleccionistas" +
@@ -54,7 +54,7 @@ public class Menu {
         }
     }
 
-    public static void inicioVendedor() throws IOException, SQLException, ClassNotFoundException {
+    public static void inicioVendedor() throws IOException, SQLException, ClassNotFoundException, UsuarioNoExisteException {
         boolean ejecutando = true;
         while (ejecutando) {
             System.out.println("\n-----Vendedores-----");
@@ -149,34 +149,21 @@ public class Menu {
 
                 case "2":
                     mostrarSubastasActivas();
+                    System.out.print("\n¿Desea realizar una oferta? [s/n]: ");
+                    String respuesta = in.readLine();
+                    if (respuesta.equalsIgnoreCase("s")) {
+                        try {
+                            realizarOferta(coleccionista);
+                        } catch (SubastaNoExisteException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
                     break;
-//                    System.out.println("\n-----Subastas-----" +
-//                            "\n" + getSubastasActivas());
-//                    System.out.println("\nSeleccione una Subasta - Digite el ID de la Subasta:");
-//                    String subastaID = in.readLine();
-//                    Subasta subasta;
-//                    try {
-//                        subasta = subastaXId(subastaID);
-//                    } catch (SubastaNoExisteException e) {
-//                        System.out.println("\n" + e.getMessage());
-//                        break;
-//                    }
-//                    menuSubastasColeccionista(coleccionista, subasta);
-//                    break;
-//
-//                case "3":
-//                    if(coleccionista.getColeccion().isEmpty()){
-//                        System.out.print("-Los coleccionistas solo pueden vender items de su colección. \n-Su colección esta vacía");
-//                    } else {
-//                        menuCrearSubasta(coleccionista);
-//                    }
-//                    break;
 
                 case "4":
                     System.out.println("\n-----Mis Subastas-----");
                     System.out.print(getSubastasXUsuario(coleccionista));
                     break;
-
 
                 case "5":
                     System.out.print("\n-----Intereses-----");
@@ -202,31 +189,7 @@ public class Menu {
 
         }
     }
-//
-//    public static void menuSubastasColeccionista(Coleccionista coleccionista, Subasta subasta) throws IOException {
-//        boolean ejecutando = true;
-//        while (ejecutando) {
-//            System.out.println("\n- [1] Ofertar" + "\n- [2] Ver ofertas" + "\n- [3] Salir");
-//
-//            String opcion = in.readLine();
-//            switch (opcion) {
-//                case "1":
-//                    System.out.println("¿Cuanto desea ofertar?");
-//                    int monto = Integer.parseInt(in.readLine());
-//                    agregarOferta(subasta, coleccionista, monto);
-//                    break;
-//
-//                case "2":
-//                    System.out.print("\n" + subasta.verOfertas());
-//                    break;
-//
-//                case "3":
-//                    ejecutando = false;
-//                    break;
-//            }
-//        }
-//    }
-//
+
     public static void menuVendedor(Vendedor vendedor) throws IOException, UsuarioNoExisteException, SQLException, ClassNotFoundException {
         boolean ejecutando = true;
         ArrayList<Item> itemsSubasta;
@@ -240,9 +203,6 @@ public class Menu {
             String opcion = in.readLine();
 
             switch(opcion) {
-//                case "1":
-//                    menuCrearSubasta(vendedor);
-//                    break;
 
                 case "2":
                     System.out.println("\n-----Mis Subastas-----");
@@ -266,73 +226,4 @@ public class Menu {
 
     }
 
-//    public static void menuCrearSubasta(Usuario usuario) throws IOException{
-//        System.out.println("\n-----Crear Subasta-----");
-//        ArrayList<Item> items = new ArrayList<>();
-//
-//        if (usuario instanceof Vendedor){
-//            System.out.println("\n¿Cuantos items desea agregar a la subasta?");
-//            int cantidad = Integer.parseInt(in.readLine());
-//            for(int i = 1; i <= cantidad; i++ ){
-//                System.out.println("\n-Item " + i);
-//                System.out.println("\nDigite el nombre del item: ");
-//                String nombre = in.readLine();
-//                System.out.println("\nDescriba el item: ");
-//                String descripcion = in.readLine();
-//                System.out.println("\n¿Cual es el estado del item? ");
-//                String estado = in.readLine();
-//                System.out.println("\nFecha de origen -- Digite el año:");
-//                int annio = Integer.parseInt(in.readLine());
-//                System.out.println("\nFecha de origen -- Digite el mes:");
-//                int mes = Integer.parseInt(in.readLine());
-//                System.out.println("\nFecha de origen -- Digite el dia:");
-//                int dia = Integer.parseInt(in.readLine());
-//
-//                Item item = new Item(nombre, descripcion, estado, dia, mes, annio);
-//
-//                items.add(item);
-//            }
-//
-//            System.out.println("\n¿Cuantos días desea que la subasta se mantenga activa?");
-//            int dias = Integer.parseInt(in.readLine());
-//            LocalDateTime fechaVencimiento = LocalDateTime.now().plusDays(dias);
-//
-//            System.out.println("\n¿Cual es el precio mínimo que aceptaría por esta subasta?");
-//            double precio = Double.parseDouble(in.readLine());
-//            crearSubasta(fechaVencimiento, (Vendedor) usuario, precio, items);
-//
-//            try {
-//                System.out.print(subastaXId("S-1").getUsuarioCreador());
-//            } catch (SubastaNoExisteException e) {
-//                System.out.print(e.getMessage());
-//            }
-//
-//
-//        } else if (usuario instanceof Coleccionista) {
-//            System.out.println("\n¿Cuantos items desea agregar a la subasta?");
-//            int cantidad = Integer.parseInt(in.readLine());
-//            for(int i = 1; i <= cantidad; i++ ) {
-//                System.out.print(((Coleccionista) usuario).getColeccion());
-//                System.out.println("\nDigite el ID del item que desea agregar a la subasta");
-//                String idItem = in.readLine();
-//                Item item = null;
-//                try {
-//                     item = ((Coleccionista) usuario).itemXID(idItem);
-//                } catch (ItemNoExisteException e) {
-//                    System.out.println(e.getMessage());
-//                    break;
-//                }
-//                 items.add(item);
-//
-//            }
-//
-//            System.out.println("\n¿Cuantos días desea que la subasta se mantenga activa?");
-//            int dias = Integer.parseInt(in.readLine());
-//            LocalDateTime fechaVencimiento = LocalDateTime.now().plusDays(dias);
-//
-//            System.out.println("\n¿Cual es el precio mínimo que aceptaría por esta subasta?");
-//            double precio = Double.parseDouble(in.readLine());
-//            crearSubasta(fechaVencimiento, (Coleccionista) usuario, precio, items);
-//        }
-//    }
 }

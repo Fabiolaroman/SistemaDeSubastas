@@ -3,6 +3,8 @@ package cr.ac.ucenfotec.bl.gestores;
 import cr.ac.ucenfotec.bl.entidades.*;
 import cr.ac.ucenfotec.bl.excepciones.*;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -10,8 +12,8 @@ public class GestorSubastas {
     private final static ArrayList<Subasta> subastas = new ArrayList<>();
     private final static ArrayList<OrdenAdjudicacion> ordenes = new ArrayList<>();
 
-    //crear subasta
-    public static void crearSubasta(LocalDateTime fechaHoraVencimiento, Vendedor usuario, double precio, ArrayList<Item> items) {
+
+    public static void crearSubasta(LocalDateTime fechaHoraVencimiento, Vendedor usuario, double precio, ArrayList<Item> items) throws SQLException, IOException, ClassNotFoundException {
 
         try {
             Subasta subasta = new Subasta(fechaHoraVencimiento, usuario, precio, items);
@@ -28,7 +30,7 @@ public class GestorSubastas {
         }
     }
 
-    public static void crearSubasta(LocalDateTime fechaHoraVencimiento, Coleccionista usuario, double precio, ArrayList<Item> items) {
+    public static void crearSubasta(LocalDateTime fechaHoraVencimiento, Coleccionista usuario, double precio, ArrayList<Item> items) throws SQLException, IOException, ClassNotFoundException {
 
         try {
             Subasta subasta = new Subasta(fechaHoraVencimiento, usuario, precio, items);
@@ -45,7 +47,7 @@ public class GestorSubastas {
         }
     }
 
-    //getter
+
     public static ArrayList<Subasta> getSubastas() {
         return subastas;
     }
@@ -71,7 +73,7 @@ public class GestorSubastas {
         return subastasUsuario;
     }
 
-    //ofertar
+
     public static void agregarOferta(Subasta subasta, Coleccionista usuario, double monto) {
 
         try {
@@ -91,10 +93,12 @@ public class GestorSubastas {
             }
         } catch (OfertaInvalidaException e){
             System.out.println(e.getMessage());
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            System.out.println("Error al crear la oferta: " + e.getMessage());
         }
     }
 
-    //adjudicar
+
     public static void adjudicarSubastasVencidas(){
         subastas.forEach(subasta -> {
             subasta.actualizarEstado();
@@ -112,7 +116,7 @@ public class GestorSubastas {
         });
     }
 
-    //subastaXId
+
     public static Subasta subastaXId(String id) throws SubastaNoExisteException {
         Subasta subastaEncontrado = null;
         boolean encontrado = false;

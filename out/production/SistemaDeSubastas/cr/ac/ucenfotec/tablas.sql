@@ -8,6 +8,7 @@ CREATE TABLE t_coleccionista(
     apellidos VARCHAR(50) NOT NULL,
     cedula VARCHAR(10) NOT NULL,
     fecha_nacimiento DATE NOT NULL,
+    edad INTEGER NOT NULL,
     correo VARCHAR(50) NOT NULL,
     contrasenia VARCHAR(25) NOT NULL,
     puntuacion DOUBLE NOT NULL,
@@ -15,15 +16,16 @@ CREATE TABLE t_coleccionista(
 )
 
 CREATE TABLE t_vendedor(
-    id VARCHAR(10) PRIMARY KEY,
-    nombre VARCHAR(25) NOT NULL,
-    apellidos VARCHAR(50) NOT NULL,
-    cedula VARCHAR(10) NOT NULL,
-    fecha_nacimiento DATE NOT NULL,
-    correo VARCHAR(50) NOT NULL,
-    contrasenia VARCHAR(25) NOT NULL,
-    puntuacion DOUBLE NOT NULL,
-    direccion VARCHAR(25) NOT NULL
+   id VARCHAR(10) PRIMARY KEY,
+   nombre VARCHAR(25) NOT NULL,
+   apellidos VARCHAR(50) NOT NULL,
+   cedula VARCHAR(10) NOT NULL,
+   fecha_nacimiento DATE NOT NULL,
+   edad INTEGER NOT NULL,
+   correo VARCHAR(50) NOT NULL,
+   contrasenia VARCHAR(25) NOT NULL,
+   puntuacion DOUBLE NOT NULL,
+   direccion VARCHAR(25) NOT NULL
 )
 
 CREATE TABLE t_moderador(
@@ -32,16 +34,20 @@ CREATE TABLE t_moderador(
     apellidos VARCHAR(50) NOT NULL,
     cedula VARCHAR(10) NOT NULL,
     fecha_nacimiento DATE NOT NULL,
+    edad INTEGER NOT NULL,
     correo VARCHAR(50) NOT NULL,
     contrasenia VARCHAR(25) NOT NULL
 )
 
 CREATE TABLE t_subasta(
     id VARCHAR(10) PRIMARY KEY ,
-    id_usuario_creador VARCHAR(10) NOT NULL,
-    FOREIGN KEY (id_usuario_creador) REFERENCES t_vendedor(id),
+    id_vendedor VARCHAR(10),
+    FOREIGN KEY (id_vendedor) REFERENCES t_vendedor(id),
+    id_coleccionista VARCHAR(10),
+    FOREIGN KEY (id_coleccionista) REFERENCES t_coleccionista(id),
     precio_minimo DOUBLE NOT NULL,
-    esta_activa BOOLEAN NOT NULL
+    esta_activa BOOLEAN NOT NULL,
+    fechaVencimiento TIMESTAMP NOT NULL
 )
 
 CREATE TABLE t_oferta(
