@@ -26,11 +26,11 @@ public class DAOOferta {
         ResultSet resultado = Conector.getConexion().ejecutarQuery(query, idSubasta);
 
         ArrayList<Oferta> ofertas = new ArrayList<>();
-        while (resultado.next()) {
+        do  {
             Coleccionista coleccionista = DAOColeccionista.seleccionarColeccionista(resultado.getString("id_coleccionista"));
-            Oferta oferta = new Oferta(coleccionista, resultado.getDouble("monto"));
+            Oferta oferta = new Oferta(resultado.getString("id"), coleccionista, resultado.getDouble("monto"));
             ofertas.add(oferta);
-        }
+        } while (resultado.next());
         return ofertas;
     }
 }

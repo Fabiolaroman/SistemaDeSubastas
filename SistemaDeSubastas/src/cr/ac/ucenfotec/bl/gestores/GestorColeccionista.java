@@ -31,7 +31,15 @@ public class GestorColeccionista {
         return coleccionista;
     }
 
-    public static ArrayList<String> obtenerIntereses(String idColeccionista) throws SQLException, IOException, ClassNotFoundException {
+    public static ArrayList<String> mostrarIntereses(String idColeccionista) throws SQLException, IOException, ClassNotFoundException {
         return DAOColeccionista.seleccionarIntereses(idColeccionista);
+    }
+
+    public static ArrayList<String> mostrarTodosIntereses() throws SQLException, IOException, ClassNotFoundException {
+        return DAOColeccionista.seleccionarIntereses();
+    }
+
+    public static String agregarInteres(Coleccionista coleccionista, String idInteres) throws SQLException, IOException, ClassNotFoundException {
+        return DAOColeccionista.insertarInteres(coleccionista, idInteres);
     }
 }

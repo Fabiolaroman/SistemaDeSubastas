@@ -67,6 +67,18 @@ public class Subasta {
         this.ofertas = ofertas;
     }
 
+    public Subasta(String id, LocalDateTime fechaHoraVencimiento, double precioMinimo, ArrayList<Item> items, boolean estaActiva, ArrayList<Oferta> ofertas) {
+        this.id = id;
+        this.fechaHoraVencimiento = fechaHoraVencimiento;
+        this.tiempoRestante = Duration.between(fechaHoraVencimiento, LocalDateTime.now());
+        this.precioMinimo = precioMinimo;
+        this.items = items;
+        this.estaActiva = estaActiva;
+        this.ofertas = ofertas;
+    }
+
+
+
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
     public LocalDateTime getFechaHoraVencimiento() { return fechaHoraVencimiento; }

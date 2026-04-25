@@ -1,6 +1,8 @@
 package cr.ac.ucenfotec.dl;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class AccesoBD {
     private Connection conexion;
@@ -15,6 +17,40 @@ public class AccesoBD {
     public void ejecutarStatement(String statement) throws SQLException {
         this.statement = conexion.createStatement();
         this.statement.executeUpdate(statement);
+    }
+
+    public void ejecutarStatement(String statement, String s1) throws SQLException {
+        preparedStatement = conexion.prepareStatement(statement);
+        preparedStatement.setString(1, s1);
+        preparedStatement.executeUpdate();
+    }
+
+    public void ejecutarStatement(String statement, String s1, String s2) throws SQLException {
+        preparedStatement = conexion.prepareStatement(statement);
+        preparedStatement.setString(1, s1);
+        preparedStatement.setString(2, s2);
+        preparedStatement.executeUpdate();
+    }
+
+    public void ejecutarStatement(String statement, String s1, String s2, double d, boolean b, LocalDateTime f) throws SQLException {
+        preparedStatement = conexion.prepareStatement(statement);
+        preparedStatement.setString(1, s1);
+        preparedStatement.setString(2, s2);
+        preparedStatement.setDouble(3, d);
+        preparedStatement.setBoolean(4, b);
+        preparedStatement.setTimestamp(5, Timestamp.valueOf(f));
+        preparedStatement.executeUpdate();
+    }
+
+    public void ejecutarStatement(String statement, String s1, String s2, String s3, String s4, LocalDate d,String s5) throws SQLException {
+        preparedStatement = conexion.prepareStatement(statement);
+        preparedStatement.setString(1, s1);
+        preparedStatement.setString(2, s2);
+        preparedStatement.setString(3, s3);
+        preparedStatement.setString(4, s4);
+        preparedStatement.setDate(5, Date.valueOf(d));
+        preparedStatement.setString(6, s5);
+        preparedStatement.executeUpdate();
     }
 
     public ResultSet ejecutarQuery(String query) throws SQLException {

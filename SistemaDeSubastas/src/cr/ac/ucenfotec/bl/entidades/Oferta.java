@@ -29,6 +29,12 @@ public class Oferta {
         this.monto = monto;
     }
 
+    public Oferta(String id, Coleccionista usuario, double monto) {
+        this.id = id;
+        this.usuario = usuario;
+        this.monto = monto;
+    }
+
     //getters y setters
     public Coleccionista getUsuario() {
         return usuario;
@@ -44,12 +50,16 @@ public class Oferta {
 
     public String getApellidosUsuario() {return usuario.getApellidos();}
 
-    public double getPuntuacionUsuario() {
-        return usuario.getPuntuacion();
-    }
-
     public double getMonto() {
         return monto;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setMonto(double monto) {

@@ -68,9 +68,34 @@ public class DAOColeccionista {
         ResultSet resultado = Conector.getConexion().ejecutarQuery(query, idColeccionista);
 
         ArrayList<String> intereses = new ArrayList<>();
-        while (resultado.next()) {
+        do {
             intereses.add(resultado.getString("nombre"));
-        }
+        } while (resultado.next());
         return intereses;
+    }
+
+    public static ArrayList<String> seleccionarIntereses() throws SQLException, IOException, ClassNotFoundException {
+
+        query = "Select * FROM t_interes i;";
+        ResultSet resultado = Conector.getConexion().ejecutarQuery(query);
+        ArrayList<String> intereses = new ArrayList<>();
+        int contador = 0;
+        do {
+            contador++;
+            intereses.add(resultado.getString(contador + ". nombre\n"));
+        } while (resultado.next());
+
+        return intereses;
+    }
+
+    public static String insertarInteres(Coleccionista coleccionista, String idInteres) throws SQLException, IOException, ClassNotFoundException {
+        query = "SELECT * FROM t_interes WHERE id = ?";
+        ResultSet resultado = Conector.getConexion().ejecutarQuery(query, idInteres);
+        if(!resultado.next()) return "Numero de interes seleccionado no existe";
+
+        statement = "INSERT INTO t_coleccionista_interes Values('" + coleccionista.getId() + "', '" + idInteres + "');";
+        Conector.getConexion().ejecutarStatement(statement);
+
+        return "Su nuevo interés ha sido agregado a su cuanta";
     }
 }

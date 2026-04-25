@@ -2,17 +2,11 @@ package cr.ac.ucenfotec.ui;
 
 import cr.ac.ucenfotec.bl.entidades.*;
 import cr.ac.ucenfotec.bl.excepciones.*;
-import cr.ac.ucenfotec.tl.Controlador;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 
-import static cr.ac.ucenfotec.bl.gestores.GestorSubastas.*;
 import static cr.ac.ucenfotec.tl.Controlador.*;
 import cr.ac.ucenfotec.bl.excepciones.SubastaNoExisteException;
 
@@ -20,7 +14,7 @@ public class Menu {
     public static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
     public static void iniciarMenu() throws IOException, SQLException, ClassNotFoundException, UsuarioNoExisteException {
-
+//        registrarModerador("Roberto", "González", "117260520", 13, 11, 1998, "rgonzalezca@ucenfotec.ac.cr", "Password1");
         boolean ejecutando = true;
 
         while (ejecutando) {
@@ -49,8 +43,6 @@ public class Menu {
                     System.out.println("Opción invalida");
                     break;
             }
-
-            adjudicarSubastasVencidas();
         }
     }
 
@@ -92,7 +84,7 @@ public class Menu {
 
     }
 
-    public static void inicioColeccionista() throws IOException, SQLException, ClassNotFoundException {
+    public static void inicioColeccionista() throws IOException, SQLException, ClassNotFoundException, UsuarioNoExisteException {
         boolean ejecutando = true;
         while (ejecutando) {
             System.out.println("\n-----Coleccionistas-----");
@@ -138,7 +130,7 @@ public class Menu {
             System.out.println("- [2] Ver Subastas Activas");
             System.out.println("- [3] Crear Nueva Subasta");
             System.out.println("- [4] Ver Mis Subastas");
-            System.out.println("- [5] Ver Intereses");
+            System.out.println("- [5] Ver Mis Intereses");
             System.out.println("- [6] Agregar Intereses");
             System.out.println("- [7] Salir");
             String opcion = in.readLine();
@@ -148,6 +140,7 @@ public class Menu {
                     break;
 
                 case "2":
+                    System.out.print("\n-----Subastas Activas-----");
                     mostrarSubastasActivas();
                     System.out.print("\n¿Desea realizar una oferta? [s/n]: ");
                     String respuesta = in.readLine();
@@ -160,21 +153,22 @@ public class Menu {
                     }
                     break;
 
+                case "3":
+                    crearSubasta(coleccionista);
+
                 case "4":
-                    System.out.println("\n-----Mis Subastas-----");
-                    System.out.print(getSubastasXUsuario(coleccionista));
+                    System.out.print("\n-----Mis Subastas-----");
+                    mostrarSubastas(coleccionista);
                     break;
 
                 case "5":
                     System.out.print("\n-----Intereses-----");
-                    System.out.print("\n" + coleccionista.getIntereses());
+                    mostrarInteresesColeccionista(coleccionista);
                     break;
 
                 case "6":
                     System.out.print("\n-----Intereses-----");
-                    System.out.print("\n-Digite el interes de desea agregar:");
-                    String interes = in.readLine();
-                    coleccionista.agregarInteres(interes);
+                    agregarIntereses(coleccionista);
                     break;
 
                 case "7":
@@ -192,9 +186,7 @@ public class Menu {
 
     public static void menuVendedor(Vendedor vendedor) throws IOException, UsuarioNoExisteException, SQLException, ClassNotFoundException {
         boolean ejecutando = true;
-        ArrayList<Item> itemsSubasta;
         while(ejecutando) {
-            itemsSubasta = new ArrayList<>();
             System.out.println("\n-----Vendedor " + vendedor.getId() + "-----");
             System.out.println("\n- [1] Crear Nueva Subasta");
             System.out.println("\n- [2] Ver Mis Subastas");
@@ -204,6 +196,9 @@ public class Menu {
 
             switch(opcion) {
 
+                case "1":
+                    crearSubasta(vendedor);
+
                 case "2":
                     System.out.println("\n-----Mis Subastas-----");
                     mostrarSubastas(vendedor);
@@ -211,7 +206,6 @@ public class Menu {
 
                 case "3":
                     adjudicarSubastasVencidas();
-                    System.out.println("\nSe adjudicaron todas las subastas vencidas");
                     break;
 
                 case "4":

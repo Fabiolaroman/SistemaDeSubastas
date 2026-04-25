@@ -67,14 +67,6 @@ public class Item {
         this.id = id;
     }
 
-    public static int getContador() {
-        return contador;
-    }
-
-    public static void setContador(int contador) {
-        Item.contador = contador;
-    }
-
     public String getDescripcion() {
         return descripcion;
     }
