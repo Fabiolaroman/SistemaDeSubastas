@@ -19,7 +19,7 @@ public class Item {
 
     //constructor
     private static int numeroUltimoID() throws SQLException, IOException, ClassNotFoundException {
-        String query = "SELECT * FROM t_coleccionista ORDER BY id DESC LIMIT 1;";
+        String query = "SELECT * FROM t_item ORDER BY id DESC LIMIT 1;";
         ResultSet resultado = Conector.getConexion().ejecutarQuery(query);
         if (!resultado.next()) return 0;
         String id = resultado.getString("id");
@@ -104,7 +104,7 @@ public class Item {
 
     @Override
     public String toString() {
-        return "ID: " + id +" | Item: " + nombre + " | Descripcción: " + descripcion + " | Fecha de Origen: " + fechaCompra + " | Antigüedad: " + antiguedad;
+        return "\nID: " + id +" | Item: " + nombre + " | Descripcción: " + descripcion + " | Fecha de Origen: " + fechaCompra + " | Antigüedad: " + antiguedad.getYears() + " años";
     }
 
     //equals

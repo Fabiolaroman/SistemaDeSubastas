@@ -46,6 +46,7 @@ public class DAOColeccionista {
     public static Coleccionista seleccionarColeccionista(String loginId) throws SQLException, IOException, ClassNotFoundException, UsuarioNoExisteException, ContraseniaIncorrectaException {
         query = "SELECT * FROM t_coleccionista WHERE id = ?;";
         ResultSet resultado =  Conector.getConexion().ejecutarQuery(query, loginId);
+        resultado.next();
 
         return new Coleccionista(
                 resultado.getString("id"),
@@ -62,15 +63,13 @@ public class DAOColeccionista {
 
     public static ArrayList<String> seleccionarIntereses(String idColeccionista) throws SQLException, IOException, ClassNotFoundException {
 
-        query = "SELECT i.nombre FROM t_interes i " +
-                "INNER JOIN t_coleccionista_interes ci ON i.id = ci.id_interes " +
-                "WHERE ci.id_coleccionista = ?;";
+        query = "SELECT nombre FROM t_interes INNER JOIN t_coleccionista_interes ON id = id_interes WHERE id_coleccionista = ?;";
         ResultSet resultado = Conector.getConexion().ejecutarQuery(query, idColeccionista);
 
         ArrayList<String> intereses = new ArrayList<>();
-        do {
+        while (resultado.next()) {
             intereses.add(resultado.getString("nombre"));
-        } while (resultado.next());
+        }
         return intereses;
     }
 
@@ -80,10 +79,10 @@ public class DAOColeccionista {
         ResultSet resultado = Conector.getConexion().ejecutarQuery(query);
         ArrayList<String> intereses = new ArrayList<>();
         int contador = 0;
-        do {
+        while (resultado.next()) {
             contador++;
-            intereses.add(resultado.getString(contador + ". nombre\n"));
-        } while (resultado.next());
+            intereses.add(contador +". " + resultado.getString("nombre"));
+        }
 
         return intereses;
     }

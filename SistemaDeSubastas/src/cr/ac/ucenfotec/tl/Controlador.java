@@ -3,10 +3,7 @@ package cr.ac.ucenfotec.tl;
 import cr.ac.ucenfotec.bl.dao.DAOColeccionista;
 import cr.ac.ucenfotec.bl.dao.DAOItem;
 import cr.ac.ucenfotec.bl.dao.DAOSubasta;
-import cr.ac.ucenfotec.bl.entidades.Coleccionista;
-import cr.ac.ucenfotec.bl.entidades.Item;
-import cr.ac.ucenfotec.bl.entidades.Usuario;
-import cr.ac.ucenfotec.bl.entidades.Vendedor;
+import cr.ac.ucenfotec.bl.entidades.*;
 import cr.ac.ucenfotec.bl.excepciones.*;
 import cr.ac.ucenfotec.bl.gestores.*;
 
@@ -14,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -87,6 +85,16 @@ public class Controlador {
         return GestorColeccionista.ingresarColeccionista(loginId, password);
     }
 
+    public static Moderador ingresarModerador() throws IOException, SQLException, ClassNotFoundException, UsuarioNoExisteException, ContraseniaIncorrectaException {
+        System.out.println("---Inicio de Sesión---");
+        System.out.println("\nID de Usuario: ");
+        String loginId = in.readLine();
+        System.out.println("\nContraseña: ");
+        String password = in.readLine();
+
+        return GestorModerador.ingresarModerador(loginId, password);
+    }
+
     public static void mostrarColeccion(String idColeccionista) throws SQLException, IOException, ClassNotFoundException {
         System.out.println(GestorItem.mostrarColeccion(idColeccionista));
     }
@@ -116,7 +124,15 @@ public class Controlador {
         ArrayList<Item> items = new ArrayList<>();
 
         System.out.println("\n¿Cuantos items desea agregar a la subasta?");
-        int cantidad = Integer.parseInt(in.readLine());
+        int cantidad = 1;
+        try {
+            cantidad = Integer.parseInt(in.readLine());
+        } catch (NumberFormatException e) {
+            System.out.print("Debe digitar un numero");
+            crearSubasta(vendedor);
+            return;
+        }
+        int ultimoId = 1;
         for (int i = 1; i <= cantidad; i++) {
             System.out.println("\n-Item " + i);
             System.out.println("\nDigite el nombre del item: ");
@@ -131,11 +147,16 @@ public class Controlador {
             int mes = Integer.parseInt(in.readLine());
             System.out.println("\nFecha de origen -- Digite el dia:");
             int dia = Integer.parseInt(in.readLine());
-
-            Item item = new Item(nombre, descripcion, estado, dia, mes, annio);
+            Item item = null;
+            if (i==1) {
+                item = new Item(nombre, descripcion, estado, dia, mes, annio);
+            } else {
+                item = new Item("I-"+ultimoId, nombre, descripcion, estado, LocalDate.of(annio, mes, dia));
+            }
+            ultimoId = Character.getNumericValue(item.getId().charAt(2));
+            ultimoId++;
 
             items.add(item);
-
         }
 
         System.out.println("\n¿Cuantos días desea que la subasta se mantenga activa?");
@@ -152,12 +173,19 @@ public class Controlador {
     public static void crearSubasta(Coleccionista coleccionista) throws IOException, SQLException, ClassNotFoundException{
         System.out.println("\n-----Crear Subasta-----");
         ArrayList<Item> items = new ArrayList<>();
+        int cantidad = 1;
 
 
         System.out.println(DAOItem.seleccionarColeccion(coleccionista.getId()));
 
         System.out.println("\n¿Cuantos items desea agregar a la subasta?");
-        int cantidad = Integer.parseInt(in.readLine());
+        try {
+            cantidad = Integer.parseInt(in.readLine());
+        } catch (NumberFormatException e) {
+            System.out.print("Debe digitar un numero");
+            crearSubasta(coleccionista);
+            return;
+        }
 
         for (int i = 1; i <= cantidad; i++) {
             System.out.println("Digite el ID del item que desea agregar:");
@@ -181,18 +209,18 @@ public class Controlador {
         double precio = Double.parseDouble(in.readLine());
 
 
-        System.out.println(GestorSubasta.crearSubasta(coleccionista, items, fechaVencimiento, precio));
+        System.out.println("\n" + GestorSubasta.crearSubasta(coleccionista, items, fechaVencimiento, precio));
     }
 
     public static void mostrarInteresesColeccionista(Coleccionista coleccionista) throws SQLException, IOException, ClassNotFoundException {
-        GestorColeccionista.mostrarIntereses(coleccionista.getId());
+        System.out.println("\n" + GestorColeccionista.mostrarIntereses(coleccionista.getId()));
     }
 
     public static void agregarIntereses(Coleccionista coleccionista) throws SQLException, IOException, ClassNotFoundException {
         System.out.println("\n" + GestorColeccionista.mostrarTodosIntereses());
 
         System.out.println("¿Cúal interes desea agragar a su cuenta?\nDigite el número correspondiente");
-        String idInteres = "I-" + in.readLine();
+        String idInteres = in.readLine();
 
         System.out.println(GestorColeccionista.agregarInteres(coleccionista, idInteres));
     }

@@ -134,6 +134,6 @@ public class Subasta {
     }
 
     public String toString(){
-        return "\nSubasta: " + id + " Precio Minimo: $" + precioMinimo + "\n" + items;
+        return "\nSubasta: " + id + " | Precio Minimo: $" + precioMinimo + " | Fecha Límite: " + fechaHoraVencimiento.getDayOfMonth() +"/" + fechaHoraVencimiento.getMonth() +"/"+fechaHoraVencimiento.getYear()+" a las "+fechaHoraVencimiento.getHour()+" horas y "+fechaHoraVencimiento.getMinute()+" minutos" +"\nCreada Por: "+ usuarioCreador.getNombre() + " " + usuarioCreador.getApellidos() + "\nITEMS\n" + items + "\nOFERTAS\n" + ofertas;
     }
 }

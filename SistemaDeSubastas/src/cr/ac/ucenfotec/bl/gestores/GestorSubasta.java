@@ -35,19 +35,23 @@ public class GestorSubasta {
 
     public static void adjudicarSubastasVencidas() throws SQLException, IOException, ClassNotFoundException, UsuarioNoExisteException {
         ArrayList<Subasta> subastasVencidasNoAdjudicadas = DAOSubasta.seleccionarSubastasVencidasNoAdjudicadas();
+        if(subastasVencidasNoAdjudicadas != null) {
 
-        for(Subasta subasta : subastasVencidasNoAdjudicadas) {
-            ArrayList<Oferta> ofertas = new ArrayList<>();
+            for (Subasta subasta : subastasVencidasNoAdjudicadas) {
+                ArrayList<Oferta> ofertas = new ArrayList<>();
 
-            ofertas = DAOOferta.seleccionarOfertas(subasta.getId());
-            Oferta ofertaGanadora = ofertas.getFirst();
-            for(Oferta oferta : ofertas){
-                if (ofertaGanadora.getMonto() < oferta.getMonto()){
-                    ofertaGanadora = oferta;
+                ofertas = DAOOferta.seleccionarOfertas(subasta.getId());
+                Oferta ofertaGanadora = ofertas.getFirst();
+                for (Oferta oferta : ofertas) {
+                    if (ofertaGanadora.getMonto() < oferta.getMonto()) {
+                        ofertaGanadora = oferta;
+                    }
                 }
+                System.out.println(DAOSubasta.actualizarSubastaVencida(subasta));
+                System.out.println(DAOItem.actualizarItemsAdjudicados(subasta.getItems(), ofertaGanadora.getUsuario()));
             }
-            System.out.println(DAOSubasta.actualizarSubastaVencida(subasta));
-            System.out.println(DAOItem.actualizarItemsAdjudicados(subasta.getItems(), ofertaGanadora.getUsuario()));
+        } else {
+            System.out.println("No hay ninguna subasta vencida sin adjudicar");
         }
     }
 }

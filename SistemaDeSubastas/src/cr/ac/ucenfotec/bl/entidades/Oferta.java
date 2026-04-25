@@ -14,7 +14,7 @@ public class Oferta {
 
     // constructor
     private static int numeroUltimoID() throws SQLException, IOException, ClassNotFoundException {
-        String query = "SELECT * FROM t_vendedor ORDER BY id DESC LIMIT 1;";
+        String query = "SELECT * FROM t_oferta ORDER BY id DESC LIMIT 1;";
         ResultSet resultado = Conector.getConexion().ejecutarQuery(query);
         if (!resultado.next()) return 0;
         String id = resultado.getString("id");
@@ -69,9 +69,7 @@ public class Oferta {
     //toString
     @Override
     public String toString() {
-        return "Oferta: " +
-                "\nDe: " + getNombreUsuario() + " " + getApellidosUsuario() +
-                "\nPor: " + monto;
+        return "\nDe: " + getNombreUsuario() + " " + getApellidosUsuario() + " | Por: $" + monto;
     }
 
     //equals

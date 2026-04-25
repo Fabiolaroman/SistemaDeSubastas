@@ -44,6 +44,7 @@ public class DAOVendedor {
     public static Vendedor seleccionarVendedor(String loginId) throws SQLException, IOException, ClassNotFoundException, UsuarioNoExisteException, ContraseniaIncorrectaException {
         query = "SELECT * FROM t_vendedor WHERE id = ?;";
         ResultSet resultado =  Conector.getConexion().ejecutarQuery(query, loginId);
+        if(!resultado.next()) return null;
 
         return new Vendedor(
                 resultado.getString("id"),

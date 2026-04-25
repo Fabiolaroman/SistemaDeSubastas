@@ -22,7 +22,8 @@ public class Menu {
                     "\n Ingresar como:" +
                     "\n - [1]Vendedor" +
                     "\n - [2]Coleccionista" +
-                    "\n - [3]Salir");
+                    "\n - [3]Moderador" +
+                    "\n - [4]Salir");
 
             String opcion = in.readLine();
 
@@ -36,11 +37,15 @@ public class Menu {
                     break;
 
                 case "3":
+                    inicioModerador();
+                    break;
+
+                case "4":
                     ejecutando = false;
                     break;
 
                 default:
-                    System.out.println("Opción invalida");
+                    System.out.println("Opción inválida");
                     break;
             }
         }
@@ -77,7 +82,7 @@ public class Menu {
                     break;
 
                 default:
-                    System.out.println("\nOpción invalida");
+                    System.out.println("\nOpción inválida");
                     break;
             }
         }
@@ -115,11 +120,42 @@ public class Menu {
                     break;
 
                 default:
-                    System.out.println("\nOpción invalida");
+                    System.out.println("\nOpción inválida");
                     break;
             }
         }
 
+    }
+
+    public static void inicioModerador() throws IOException, SQLException, ClassNotFoundException, UsuarioNoExisteException {
+        boolean ejecutando = true;
+
+        while (ejecutando){
+            System.out.println("\n-----MODERADOR-----");
+            System.out.println("- [1] Iniciar Sesión");
+            System.out.println("- [2] Salir");
+            String opcion = in.readLine();
+            switch(opcion) {
+                case "1":
+                    Moderador moderador;
+                    try {
+                        moderador = ingresarModerador();
+                    } catch (UsuarioNoExisteException | ContraseniaIncorrectaException e) {
+                        System.out.println(e.getMessage());
+                        break;
+                    }
+
+                    menuModerador(moderador);
+
+                case "2":
+                    ejecutando = false;
+                    break;
+
+                default:
+                    System.out.println("\nOpción inválida");
+                    break;
+            }
+        }
     }
 
     public static void menuColeccionista(Coleccionista coleccionista) throws IOException, SQLException, ClassNotFoundException, UsuarioNoExisteException {
@@ -140,7 +176,6 @@ public class Menu {
                     break;
 
                 case "2":
-                    System.out.print("\n-----Subastas Activas-----");
                     mostrarSubastasActivas();
                     System.out.print("\n¿Desea realizar una oferta? [s/n]: ");
                     String respuesta = in.readLine();
@@ -155,6 +190,7 @@ public class Menu {
 
                 case "3":
                     crearSubasta(coleccionista);
+                    break;
 
                 case "4":
                     System.out.print("\n-----Mis Subastas-----");
@@ -176,7 +212,7 @@ public class Menu {
                     break;
 
                 default:
-                    System.out.println("Opción invalida");
+                    System.out.println("Opción inválida");
                     break;
 
             }
@@ -190,14 +226,14 @@ public class Menu {
             System.out.println("\n-----Vendedor " + vendedor.getId() + "-----");
             System.out.println("\n- [1] Crear Nueva Subasta");
             System.out.println("\n- [2] Ver Mis Subastas");
-            System.out.println("\n- [3] Adjudicar Subastas Vencidas");
-            System.out.println("\n- [4] Salir");
+            System.out.println("\n- [3] Salir");
             String opcion = in.readLine();
 
             switch(opcion) {
 
                 case "1":
                     crearSubasta(vendedor);
+                    break;
 
                 case "2":
                     System.out.println("\n-----Mis Subastas-----");
@@ -205,19 +241,40 @@ public class Menu {
                     break;
 
                 case "3":
-                    adjudicarSubastasVencidas();
-                    break;
-
-                case "4":
                     ejecutando = false;
                     break;
 
                 default:
-                    System.out.println("\nOpción invalida");
+                    System.out.println("\nOpción inválida");
+                    break;
             }
 
         }
 
+    }
+
+    public static void menuModerador(Moderador moderador) throws IOException, UsuarioNoExisteException, SQLException, ClassNotFoundException {
+        boolean ejecutando = true;
+
+        while (ejecutando){
+            System.out.println("\n-----Moderador " + moderador.getId() + "-----");
+            System.out.println("\n- [1] Adjudicar Subastas Vencidas");
+            System.out.println("\n- [2] Salir");
+            String opcion = in.readLine();
+            switch(opcion) {
+                case "1":
+                    adjudicarSubastasVencidas();
+                    menuModerador(moderador);
+
+                case "2":
+                    ejecutando = false;
+                    break;
+
+                default:
+                    System.out.println("\nOpción inválida");
+                    break;
+            }
+        }
     }
 
 }

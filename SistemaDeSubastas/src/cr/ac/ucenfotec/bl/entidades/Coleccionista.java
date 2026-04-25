@@ -13,8 +13,8 @@ import java.util.ArrayList;
 public class Coleccionista extends Usuario{
     private double puntuacion;
     private String direccion;
-    private ArrayList<Item> coleccion;
-    private ArrayList<String> intereses;
+    private ArrayList<Item> coleccion = new ArrayList<>();
+    private ArrayList<String> intereses = new ArrayList<>();
 
     //constructor
     private static int numeroUltimoID() throws SQLException, IOException, ClassNotFoundException {
@@ -31,8 +31,6 @@ public class Coleccionista extends Usuario{
         id = "C-" + numeroID;
         this.direccion = direccion;
         this.puntuacion = 5.0;
-        coleccion = new ArrayList<>();
-        intereses = new ArrayList<>();
 
         if (edad <= 18) {
             throw new UsuarioInvalidoException("Debe ser mayor de edad para registrarse en nuestro sistema");
@@ -65,22 +63,6 @@ public class Coleccionista extends Usuario{
 
     public ArrayList<Item> getColeccion() {
         return coleccion;
-    }
-
-    public Item itemXID(String id)  throws ItemNoExisteException{
-        Item itemEncontrado = null;
-        boolean encontrado = false;
-        for (Item item : coleccion){
-            if (id.equals(item.getId())){
-                itemEncontrado = item;
-                encontrado = true;
-            }
-        }
-
-        if (!encontrado) {
-            throw new ItemNoExisteException("Item  no existe");
-        }
-        return itemEncontrado;
     }
 
     public ArrayList<String> getIntereses() {
